@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="italian">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Owly "Mastro libraio"</title>
+        <meta description="Owly, webapp gratuita per studenti con funzionalità di ricerca testi e libri">
+        <meta name="keywords" content="Owly, compagno di studio, ricerca testi, libri, studenti, gratuita, appplicazione">
+        <meta name="author" content="Owly Società per l'Educazione e la formazione">
+        <link rel="icon" href="/src/img/favicon_io/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/dist/style.css">
+    </head>
+    <header>
+        <nav>
+            <div class="navbar-container">
+                <div class="logo-navbar-container">
+                    <img src="/src/img/Owly-Logo.png" alt="Logo Owly" class="logo">
+                </div>
+                <ul class="voci-navbar-container">
+                    <li class="voce-navbar">Ricerca titolo</li>
+                    <li class="voce-navbar">Cronologia ricerche</li>
+                    <li class="voce-navbar">Log in</li>
+                    <li class="voce-navbar">Contatti</li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <body>
+        
+        <main>
+            <h1 class="home-title">Owly "Mastro libraio"</h1>
+            <section class="hero-section">
+                <div class="hero-content">
+                    <select id="select-input">
+                        <option value="">Scegli...</option>
+                        <option value="title">Titolo</option>
+                        <option value="author">Autore</option>
+                        <option value="subject">Genere</option>
+                    </select>
+                    <input type="text" id="search-input" placeholder="Scrivi qui il titolo del libro che stai cercando...">
+                    <button id="search-button">Cerca</button>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <div class="contatti-footer-container">
+                <ul>
+                    <p class="h1-contatti-footer">Contatti</p>
+                    <li class="contatti-footer">Telefono: 345 9778518</li>
+                    <li class="contatti-footer">email: n.rossi.studio@gmail.com</li>
+                </ul>
+            </div>
+            <p class="footer-signature">Disegnato e sviluppato da RNicola™ - NicoDesign®</p>
+        </footer>
+        <script src="./bundle.js"></script>
+    </body>
+</html>
