@@ -1,62 +1,49 @@
-const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
-new HtmlWebpackPlugin({
-    template: './src/index.html', // NON dist!
-    filename: 'index.html',
-    inject: 'body'
-  }),
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  mode: 'development', // o 'production' quando sei pronto
+  mode: 'development',
+
   entry: './src/js/index.js',
+
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    publicPath: '',
+    assetModuleFilename: 'img/[name][ext]',
   },
-  devtool: 'source-map',
+
   devServer: {
-    static: [
-      {
-        directory: path.join(__dirname, 'dist'),
-      },
-      {
-        directory: path.join(__dirname, 'src'),
-      },
-    ],
+    static: {
+      directory: path.resolve(__dirname, 'dist'),
+    },
     port: 8080,
     open: true,
     hot: true,
   },
+
   module: {
     rules: [
       {
-        test: /\.s[ac]ss$/i,
-        use: [
-            'style-loader',
-            'css-loader',
-            'sass-loader'
-        ],
+        test: /\.s?css$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
         type: 'asset/resource',
-        generator: {
-          filename: 'img/[name][ext]',
-        },
       },
     ],
   },
+
   plugins: [
     new HtmlWebpackPlugin({
-      template: './dist/index.html',
+      template: './src/index.html', // ✅ ORA È GIUSTO
       filename: 'index.html',
-      inject: 'body',
     }),
     new CopyPlugin({
       patterns: [
-        { from: 'src/img', to: 'img' },
+        { from: 'src/img', to: 'img' }, // ✅ Copia img in dist/img
       ],
     }),
   ],
