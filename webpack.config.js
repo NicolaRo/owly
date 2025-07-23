@@ -1,6 +1,10 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const path = require('path');
+new HtmlWebpackPlugin({
+    template: './src/index.html', // NON dist!
+    filename: 'index.html',
+    inject: 'body'
+  }),
 
 module.exports = {
   mode: 'development', // o 'production' quando sei pronto
