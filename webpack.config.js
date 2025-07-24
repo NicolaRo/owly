@@ -1,6 +1,7 @@
 // Importa gli stili SCSS - webpack li gestirà automaticamente
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/js/index.js',
@@ -22,12 +23,23 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|svg|ico)$/i,
         type: 'asset/resource',
+        generator: {
+          filename: 'img/[name][ext]',
+        },
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/img/favicon'),
+          to: 'img/favicon',
+        },
+      ],
     }),
   ],
   devServer: {
@@ -37,6 +49,7 @@ module.exports = {
   },
   mode: 'development',
 };
+
 
 
 /* // Importa le funzioni necessarie
