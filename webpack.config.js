@@ -1,19 +1,17 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const DotenvWebpackPlugin = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
-
   entry: './src/js/index.js',
-
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     assetModuleFilename: 'img/[name][ext]',
   },
-
   devServer: {
     static: {
       directory: path.resolve(__dirname, 'dist'),
@@ -22,7 +20,6 @@ module.exports = {
     open: true,
     hot: true,
   },
-
   module: {
     rules: [
       {
@@ -35,7 +32,6 @@ module.exports = {
       },
     ],
   },
-
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
@@ -45,6 +41,10 @@ module.exports = {
       patterns: [
         { from: 'src/img', to: 'img' },
       ],
+    }),
+    new DotenvWebpackPlugin({
+      path: './.env', // Path al file .env
+      safe: false, // Non richiede un file .env.example
     }),
   ],
 };
