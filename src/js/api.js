@@ -23,3 +23,48 @@ export function bookFinder(query, type) {  // Esporto la funzione bookFinder che
  
     });
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* // Funzione per gestire la ricerca
+  function handleSearch() {
+    const query = searchInput.value.trim();
+    const type = selectInput.value;
+
+    if (!query) {
+      alert("Inserisci un termine di ricerca");
+      return;
+    }
+
+    if (!type) {
+      alert("Seleziona il tipo di ricerca");
+      return;
+    }
+
+    // Pulisci i risultati precedenti
+    clearResults();
+
+    // Mostra loading (opzionale)
+    console.log("Ricerca in corso...");
+
+    // Esegui la ricerca
+    bookFinder(query, type)
+      .then((results) => {
+        console.log("Risultati ottenuti:", results);
+        renderResults(results);
+      })
+      .catch((error) => {
+        console.error("Errore nella ricerca:", error);
+        alert("Errore durante la ricerca. Riprova.");
+      });
+  } */
