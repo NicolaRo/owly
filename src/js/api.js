@@ -2,7 +2,7 @@ import axios from "axios"; // Importo il pacchetto AXIOS per inoltrare richiete 
 
 export function bookFinder(query, type) {  // Esporto la funzione bookFinder che accetta parametri: query e select
   // TUTTO il codice che usa query e type deve stare QUI DENTRO
-  const baseUrl = "https://openlibrary.org/search.json"; // imposto URL di base dell'API
+  const baseUrl = process.env.API_BASE_URL; // imposto URL di base dell'API preso dalla variabile ambiente API_BASE_URL definita in dotenv.env
   const fullUrl = `${baseUrl}?${type}=${encodeURIComponent(query)}`; // fullUrl aggiunge i parametri type e query all'url base così la API va a cercare secondo le indicazioni dell'utente.
   console.log("URL richiesta:", fullUrl); // Mostro a console l'URL completo per il debug // ✅ Dentro la funzione
   
