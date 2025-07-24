@@ -1,4 +1,4 @@
-// Base styles
+
 * {
     margin: 0;
     padding: 0;
@@ -9,10 +9,8 @@
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #333;
-    background-color: #f4f4f4;
+    background-color: #06ad36;
   }
   
-  // Test per verificare che funzioni
-  .test {
-    color: red;
-  }
+
+  
