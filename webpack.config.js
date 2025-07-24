@@ -1,6 +1,4 @@
 // Importa gli stili SCSS - webpack li gestirà automaticamente
-import './src/css/style.scss';
-
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -14,12 +12,16 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.scss$/i,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.html$/,
-        use: ['html-loader'],
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|ico)$/i,
+        type: 'asset/resource',
       },
     ],
   },

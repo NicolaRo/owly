@@ -1,5 +1,5 @@
 // Importa gli stili SCSS - webpack li gestirà automaticamente
-import '../css/style.scss';
+import '../scss/style.scss';
 
 // Importa le funzioni necessarie
 import { bookFinder } from './api.js';
