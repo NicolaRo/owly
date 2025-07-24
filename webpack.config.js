@@ -38,12 +38,12 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html', // ✅ ORA È GIUSTO
+      template: './src/index.html',
       filename: 'index.html',
     }),
     new CopyPlugin({
       patterns: [
-        { from: 'src/img', to: 'img' }, // ✅ Copia img in dist/img
+        { from: 'src/img', to: 'img' },
       ],
     }),
   ],
