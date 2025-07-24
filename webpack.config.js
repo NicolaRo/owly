@@ -2,27 +2,40 @@
 import './src/css/style.scss';
 
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  // Imposta l'entry point del tuo progetto
   entry: './src/js/index.js',
-
-  // Imposta il percorso per il bundle di output
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    clean: true,
   },
-
-  // Aggiungi il modulo per gestire i file SCSS
   module: {
     rules: [
       {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
+      {
+        test: /\.html$/,
+        use: ['html-loader'],
+      },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+    }),
+  ],
+  devServer: {
+    static: './dist',
+    port: 8800,
+    open: true,
+  },
+  mode: 'development',
 };
+
 
 /* // Importa le funzioni necessarie
 import { bookFinder } from './api.js';
