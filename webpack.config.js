@@ -1,7 +1,30 @@
 // Importa gli stili SCSS - webpack li gestirà automaticamente
 import './src/css/style.scss';
 
-// Importa le funzioni necessarie
+const path = require('path');
+
+module.exports = {
+  // Imposta l'entry point del tuo progetto
+  entry: './src/js/index.js',
+
+  // Imposta il percorso per il bundle di output
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+
+  // Aggiungi il modulo per gestire i file SCSS
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
+};
+
+/* // Importa le funzioni necessarie
 import { bookFinder } from './api.js';
 import { renderResults, clearResults } from './dom.js';
 
@@ -54,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
 });
-
+ */
 // Test iniziale (puoi rimuoverlo dopo)
 /* 
 const testQuery = "harry potter";
