@@ -1,22 +1,22 @@
 // Importa gli stili SCSS
-import '../css/style.scss';
+import "../css/style.scss";
 
 // Importa le funzioni necessarie
-import { bookFinder } from './api.js';
-import { renderResults, clearResults } from './dom.js';
+import { bookFinder, getBookDetails } from "./api.js";
+import { renderResults, clearResults } from "./dom.js";
 
 // Event listeners e logica principale
-document.addEventListener('DOMContentLoaded', function() {
-  const searchButton = document.getElementById('search-button');
-  const searchInput = document.getElementById('search-input');
-  const selectInput = document.getElementById('select-input');
+document.addEventListener("DOMContentLoaded", function () {
+  const searchButton = document.getElementById("search-button");
+  const searchInput = document.getElementById("search-input");
+  const selectInput = document.getElementById("select-input");
 
   // Event listener per il pulsante di ricerca
-  searchButton.addEventListener('click', handleSearch);
-  
+  searchButton.addEventListener("click", handleSearch);
+
   // Event listener per Enter nell'input
-  searchInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
+  searchInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
       handleSearch();
     }
   });
@@ -27,30 +27,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const type = selectInput.value;
 
     if (!query) {
-      alert('Inserisci un termine di ricerca');
+      alert("Inserisci un termine di ricerca");
       return;
     }
 
     if (!type) {
-      alert('Seleziona il tipo di ricerca');
+      alert("Seleziona il tipo di ricerca");
       return;
     }
 
     // Pulisci i risultati precedenti
     clearResults();
-    
+
     // Mostra loading (opzionale)
-    console.log('Ricerca in corso...');
+    console.log("Ricerca in corso...");
 
     // Esegui la ricerca
     bookFinder(query, type)
-      .then(results => {
-        console.log('Risultati ottenuti:', results);
+      .then((results) => {
+        console.log("Risultati ottenuti:", results);
         renderResults(results);
       })
-      .catch(error => {
-        console.error('Errore nella ricerca:', error);
-        alert('Errore durante la ricerca. Riprova.');
+      .catch((error) => {
+        console.error("Errore nella ricerca:", error);
+        alert("Errore durante la ricerca. Riprova.");
       });
   }
 });
