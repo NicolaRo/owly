@@ -33,15 +33,23 @@ export function renderResults(books) {
     return;
   }
 
-  // 5. Crea HTML per ogni libro
+  // 5. Crea HTML per ogni libro con copertina
   books.forEach((book, index) => {
-    // Crea un div per ogni libro
+    const coverId = book.cover_i;
+    const coverUrl = coverId
+      ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
+      : "img/placeholder.jpg";
+
     const bookDiv = document.createElement("div");
     bookDiv.className = "book-result";
+    bookDiv.innerHTML =
+      // Inserisci i dati del libro nell'HTML
+      ` <h3>${book.title || "Titolo non disponibile"}</h3>
 
-    // Inserisci i dati del libro nell'HTML
-    bookDiv.innerHTML = `
-      <h3>${book.title || "Titolo non disponibile"}</h3>
+      <img src="${coverUrl}" 
+        alt="Copertina del libro" 
+        class="book-cover"
+      >
       <p><strong>Autore:</strong> ${
         book.author_name
           ? book.author_name.join(", ")
@@ -50,23 +58,16 @@ export function renderResults(books) {
       <p><strong>Anno:</strong> ${
         book.first_publish_year || "Anno non disponibile"
       }</p>
-      <button class="book-details" value="${book.key}" >Dettagli Libro</button> 
+      <button 
+        class="book-details" 
+        value="${book.key}"
+        data-cover="${coverId}" 
+        >
+        Dettagli Libro
+      </button> 
     `;
-
-    // Aggiungi questo libro al container
     resultsContainer.appendChild(bookDiv);
   });
-
-  const bookDetails = document.getElementsByClassName("book-details");
-
-// Convertiamo la HTMLCollection in un array vero
-Array.from(bookDetails).forEach((button) => {
-  button.addEventListener('click', () => {
-    const bookKey = button.value; // assicurati che "value" sia definito
-    getBookDetails(bookKey);
-  });
-});
-
 
   // 6. Crea un div per la descrizione del libro
   const bookDescription = document.createElement("div");
@@ -85,14 +86,27 @@ Array.from(bookDetails).forEach((button) => {
             <h4>${details.title}</h4>
             <p><strong>Autore:</strong> ${details.author_name.join(", ")}</p>
             <p><strong>Anno:</strong> ${details.first_publish_year}</p>
-            <p><strong>Descrizione:</strong> ${details.description || "Nessuna descrizione disponibile."}</p>
+            <p><strong>Descrizione:</strong> ${
+              details.description || "Nessuna descrizione disponibile."
+            }</p>
           `;
         })
         .catch((error) => {
           console.error("Errore nel recupero dei dettagli del libro:", error);
-          bookDescription.innerHTML = "<p>Errore nel caricamento dei dettagli del libro.</p>";
+          bookDescription.innerHTML =
+            "<p>Errore nel caricamento dei dettagli del libro.</p>";
+        });
+      getBookCover(bookKey) // funzione per ottenere la copertina del libro
+        .then((coverUrl) => {
+          // Mostra la copertina del libro nella descrizione
+          bookDescription.innerHTML += `<img src="${coverUrl}" alt="Copertina del libro" class="book-cover">`;
+        })
+        .catch((error) => {
+          console.error(
+            "Errore nel recupero della copertina del libro:",
+            error
+          );
         });
     });
   });
-
 }
