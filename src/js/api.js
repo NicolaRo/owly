@@ -3,7 +3,7 @@ const baseUrl = process.env.API_BASE_URL; // imposto URL di base dell'API preso 
 export function bookFinder(query, type) {
   // Esporto la funzione bookFinder che accetta parametri: query e select
   // TUTTO il codice che usa query e type deve stare QUI DENTRO
-  
+
   const fullUrl = `${baseUrl}/search.json?${type}=${encodeURIComponent(query)}`; // fullUrl aggiunge i parametri type e query all'url base così la API va a cercare secondo le indicazioni dell'utente.
 
   console.log("URL richiesta:", fullUrl); // Mostro a console l'URL completo per il debug
@@ -28,15 +28,19 @@ export function bookFinder(query, type) {
 
 export function getBookDetails(bookKey) {
   console.log("Verifica bookKey", bookKey);
-  
+
   const fullUrl = `${baseUrl}${bookKey}.json`;
   console.log("URL dettagli libro:", fullUrl);
 
-  return axios.get(fullUrl)
-    .then((response) => {
-      console.log("Dettagli libro ottenuti:", response.data); 
-      return response.data;
-    });
+  return axios.get(fullUrl).then((response) => {
+    console.log("Dettagli libro ottenuti:", response.data);
+    return response.data;
+  });
 }
-
- 
+export function bookCover(coverId) {
+  // Funzione per ottenere la copertina del libro
+  if (!coverId) {
+    return "src/img/book-cover-placeholder.jpg"; // Restituisce un'immagine di segnaposto se non c'è un coverId
+  }
+  return `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`; // Restituisce l'URL della copertina del libro
+}

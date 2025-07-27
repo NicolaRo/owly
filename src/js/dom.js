@@ -2,7 +2,7 @@
 
 //Importo le funzioni nnecessarie
 
-import { getBookDetails } from "./api.js";
+import { getBookDetails, bookCover } from "./api.js";
 
 // Funzione per pulire i risultati precedenti
 export function clearResults() {
@@ -11,7 +11,6 @@ export function clearResults() {
     existingResults.remove();
   }
 }
-
 // Funzione per renderizzare i risultati
 export function renderResults(books) {
   console.log("Dom.js riceve questi libri:", books);
@@ -26,7 +25,7 @@ export function renderResults(books) {
   // 3. Inserisci il container nella pagina (dopo la hero-section)
   const heroSection = document.querySelector(".hero-section");
   heroSection.insertAdjacentElement("afterend", resultsContainer);
-
+  
   // 4. Se non ci sono libri, mostra messaggio
   if (!books || books.length === 0) {
     resultsContainer.innerHTML = "<p>Nessun risultato trovato</p>";
@@ -68,7 +67,6 @@ export function renderResults(books) {
     `;
     resultsContainer.appendChild(bookDiv);
   });
-
   // 6. Crea un div per la descrizione del libro
   const bookDescription = document.createElement("div");
   bookDescription.className = "book-description";
@@ -79,33 +77,26 @@ export function renderResults(books) {
   bookDetailsButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const bookKey = button.value; // Assicurati che "value" sia definito
+      const coverId = button.getAttribute('data-cover');
+      const coverUrl = bookCover(coverId);
       getBookDetails(bookKey)
         .then((details) => {
+          console.log("Dettagli libro:", details);
           // Mostra i dettagli del libro nella descrizione
+         
           bookDescription.innerHTML = `
-            <h4>${details.title}</h4>
-            <p><strong>Autore:</strong> ${details.author_name.join(", ")}</p>
-            <p><strong>Anno:</strong> ${details.first_publish_year}</p>
-            <p><strong>Descrizione:</strong> ${
-              details.description || "Nessuna descrizione disponibile."
-            }</p>
-          `;
+  <h4>${details.title}</h4>
+  
+  <p><strong>Autore:</strong> ${details.author_name.join(", ")}</p>
+  <p><strong>Anno:</strong> ${details.first_publish_year}</p>
+  <p><strong>Descrizione:</strong> ${details.description || "Nessuna descrizione disponibile."}</p>
+  <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
+`;
         })
         .catch((error) => {
           console.error("Errore nel recupero dei dettagli del libro:", error);
           bookDescription.innerHTML =
             "<p>Errore nel caricamento dei dettagli del libro.</p>";
-        });
-      getBookCover(bookKey) // funzione per ottenere la copertina del libro
-        .then((coverUrl) => {
-          // Mostra la copertina del libro nella descrizione
-          bookDescription.innerHTML += `<img src="${coverUrl}" alt="Copertina del libro" class="book-cover">`;
-        })
-        .catch((error) => {
-          console.error(
-            "Errore nel recupero della copertina del libro:",
-            error
-          );
         });
     });
   });
