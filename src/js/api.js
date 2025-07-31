@@ -20,7 +20,7 @@ export function bookFinder(query, type) {
       const allResults = response.data.docs;
       /* const tenResults = allResults.length >= 10 ? allResults.slice(0, 10) : allResults; // Se i risultati sono più di 10, mostra solo i primi 10. */
 
-      console.log("tutti i risultati", allResults); // Mostro i primi 10 risultati a console per il debug
+      console.log("tutti i risultati", allResults); 
 
       return allResults; // ritorno i primi 10 risultati
     });
@@ -36,6 +36,7 @@ export function getBookDetails(bookKey) {
     console.log("Dettagli libro ottenuti:", response.data);
     return response.data;
   });
+  
 }
 export function bookCover(coverId) {
   // Funzione per ottenere la copertina del libro
