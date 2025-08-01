@@ -28,15 +28,20 @@ export function bookFinder(query, type) {
 
 export function getBookDetails(bookKey) {
   console.log("Verifica bookKey", bookKey);
-
   const fullUrl = `${baseUrl}${bookKey}.json`;
   console.log("URL dettagli libro:", fullUrl);
-
+  
   return axios.get(fullUrl).then((response) => {
     console.log("Dettagli libro ottenuti:", response.data);
-    return response.data;
+    const details = response.data;
+    
+    // Normalizza gli autori
+    if (!details.author_name && details.authors) {
+      details.author_name = ["Autore"]; // Placeholder per ora
+    }
+    
+    return details;
   });
-  
 }
 export function bookCover(coverId) {
   // Funzione per ottenere la copertina del libro

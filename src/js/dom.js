@@ -25,7 +25,7 @@ export function renderResults(books) {
   // 3. Inserisci il container nella pagina (dopo la hero-section)
   const heroSection = document.querySelector(".hero-section");
   heroSection.insertAdjacentElement("afterend", resultsContainer);
-  
+
   // 4. Se non ci sono libri, mostra messaggio
   if (!books || books.length === 0) {
     resultsContainer.innerHTML = "<p>Nessun risultato trovato</p>";
@@ -43,7 +43,8 @@ export function renderResults(books) {
     bookDiv.className = "book-result";
     bookDiv.innerHTML =
       // Inserisci i dati del libro nell'HTML
-      ` <h3>${book.title || "Titolo non disponibile"}</h3>
+      ` 
+      <h3>${book.title || "Titolo non disponibile"}</h3>
 
       <img src="${coverUrl}" 
         alt="Copertina del libro" 
@@ -67,37 +68,55 @@ export function renderResults(books) {
     `;
     resultsContainer.appendChild(bookDiv);
   });
-  // 6. Crea un div per la descrizione del libro
-  const bookDescription = document.createElement("div");
-  bookDescription.className = "book-description";
-  bookDescription.innerHTML = "<p>Seleziona un libro per vedere i dettagli</p>";
-  resultsContainer.appendChild(bookDescription);
+
   // 7. Aggiungi un event listener per i bottoni dei dettagli
-  const bookDetailsButtons = document.querySelectorAll(".book-details");
-  bookDetailsButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const bookKey = button.value; // Assicurati che "value" sia definito
-      const coverId = button.getAttribute('data-cover');
-      const coverUrl = bookCover(coverId);
-      getBookDetails(bookKey)
-        .then((details) => {
-          console.log("Dettagli libro:", details);
-          // Mostra i dettagli del libro nella descrizione
-         
-          bookDescription.innerHTML = `
-  <h4>${details.title}</h4>
-  
-  <p><strong>Autore:</strong> ${details.author_name.join(", ")}</p>
-  <p><strong>Anno:</strong> ${details.first_publish_year}</p>
-  <p><strong>Descrizione:</strong> ${details.description || "Nessuna descrizione disponibile."}</p>
-  <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
-`;
-        })
-        .catch((error) => {
-          console.error("Errore nel recupero dei dettagli del libro:", error);
-          bookDescription.innerHTML =
-            "<p>Errore nel caricamento dei dettagli del libro.</p>";
-        });
+const bookDetailsButtons = document.querySelectorAll(".book-details");
+bookDetailsButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    // Rimuove eventuale modale già presente
+    const existingModal = document.querySelector(".book-description");
+    if (existingModal) {
+      existingModal.remove();
+    }
+
+    const bookKey = button.value;
+    const coverId = button.getAttribute("data-cover");
+    const coverUrl = bookCover(coverId);
+
+    // Crea il div per la descrizione (modale)
+    const bookDescription = document.createElement("div");
+    bookDescription.className = "book-description";
+
+    // Aggiungi un bottone di chiusura
+    const closeButton = document.createElement("button");
+    closeButton.className = "close-button";
+    closeButton.textContent = "Chiudi";
+    closeButton.addEventListener("click", () => {
+      bookDescription.remove();
     });
-  });
-}
+
+    // Appendo subito il div (così anche nel catch lo posso usare)
+    resultsContainer.appendChild(bookDescription);
+
+    // Recupera i dettagli
+    getBookDetails(bookKey)
+      .then((details) => {
+        bookDescription.innerHTML = `
+          <h4>${details.title}</h4>
+          <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
+          <p><strong>Autore:</strong> ${details.author_name.join(", ")}</p>
+          <p><strong>Anno:</strong> ${details.first_publish_year}</p>
+          <p><strong>Descrizione:</strong> ${
+            details.description || "Nessuna descrizione disponibile."
+          }</p>
+        `;
+        bookDescription.appendChild(closeButton);
+      })
+      .catch((error) => {
+        console.error("Errore nel recupero dei dettagli del libro:", error);
+        bookDescription.innerHTML =
+          "<p>Errore nel caricamento dei dettagli del libro.</p>";
+        bookDescription.appendChild(closeButton);
+      });
+    });
+})};

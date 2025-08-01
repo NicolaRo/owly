@@ -1,4 +1,5 @@
 
+@use "./variables";
 * {
     margin: 0;
     padding: 0;
@@ -8,9 +9,10 @@
   body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: #3f2525;
     background-color: #7ff8d8a4;
   }
+
   .owly-Logo {
     width: 10%;
     height: auto;
@@ -18,29 +20,39 @@
     flex-direction: row;
     align-items:flex-start;
     justify-content: left;
-    margin: 30px;
+    margin: 1%;
     padding: 0;
     border-radius: 5px;
   }
+
   .home-title {
     width: 100%;
+    margin-bottom: 15% 15%;
     text-align: center;
     font-size: 2.5rem;
+    font-family: 'Courier New', Courier, monospace;
   }
 
   .hero-section {
-    width: 50%;
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    padding: 2%;
+    width: 100%;
+    margin: 1%;
+    padding: 1%;
     background-color: #46f0a789;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    border-radius: 30px;
+    border-radius: 10px;
+  }
+
+  .hero-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 1%;
+    margin: 1%;
   }
 
   .contatti-footer-container {
@@ -49,10 +61,11 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: left;
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #46f0a789;
-    border-radius: 30px 30px 0px 0px;
+    margin: 0;
+    padding: 3%;
+    background-color: #3cd392;
+    color: #03f98e;
+    border-radius: 10px 10px 0px 0px;
     position: fixed;
     bottom: 0;
   }
@@ -63,23 +76,81 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
-    margin-bottom: 10px;
+    margin: 1%;
+    padding: 1%;
   }
 #select-input {
+    background-color: #04ab63;
+    color:#ffff;
     width: 35%;
-    padding: 10px;
+    padding: 1%;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
-    margin-bottom: 10px;
+    margin: 1%;
   }
 #search-button {
     width: 20%;
-    padding: 10px;
-    background-color: #46f0a7;
+    margin: 1%;
+    padding: 1%;
+    background-color: #04ab63;
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
+  }
+.results-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color:#04ab63;
+  margin: 1%;
+  padding: 3%;
+  border-radius:10px;
+}
+
+.book-result {
+  margin: 1%;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.book-cover {
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  width: 30%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
+#book-details {
+  width: 20%;
+  margin: 1%;
+  padding: 1%;
+  background-color: #04ab63;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.book-description {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: fit-content;
+    padding: 5%;
+    background-color: #75f5c4;
+    border: 3px solid #060e55bd;
+    border-radius: 5px;
+    font-size: 1rem;
+    overflow-y: auto;
+    max-height: 40%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }

@@ -1,0 +1,35 @@
+$section-background: #46f0a789;
+$button-color: #04ab63;
+$border-radius: 5px;
+$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+.book-details {
+    background-color: #06f78f;
+    width: 30%;
+    height: auto;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    cursor: pointer;
+    border-radius: $border-radius;
+    color: #471212;
+    font-weight: bold;
+    border: 1px solid #ccc;
+}
+
+.close-button {
+    background-color: #f73e06;
+    color: #f7f1f1;
+    width: 20%;
+    height: auto;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    cursor: pointer;
+    border-radius: $border-radius;
+    color: #471212;
+    font-weight: bold;
+    border: 1px solid #ffffff;  
+    box-shadow: $box-shadow;
+    position: fixed;
+    top: 10%;
+    right: 5%;
+}
