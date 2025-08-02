@@ -113,7 +113,7 @@
 .book-cover {
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
-  width: 20%;
+  width: 15%;
   height: auto;
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -128,7 +128,7 @@
 
 .book-description {
     position: fixed;
-    top: 15rem;
+    top: 8rem;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -139,7 +139,7 @@
     border-radius: $border-radius;
     font-size: 1rem;
     overflow-y: auto;
-    min-height: 15rem;
+    height: 35rem;
     box-shadow: $box-shadow
   }
 
@@ -148,7 +148,6 @@
   @include button-base;
     background-color: #f73e06;
     color: #f7f1f1;
-    width: 20%;
     height: auto;
     padding-top: 2%;
     padding-bottom: 2%;
