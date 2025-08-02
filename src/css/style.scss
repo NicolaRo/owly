@@ -1,32 +1,36 @@
 
-@use "./variables";
+@use "./variables" as*;
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-  
+  html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
   body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #3f2525;
     background-color: #7ff8d8a4;
+    align-items: center;
   }
 
   .owly-Logo {
-    width: 10%;
+    width: 100px;
     height: auto;
     display: flex;
     flex-direction: row;
     align-items:flex-start;
     justify-content: left;
-    margin: 1%;
+    margin: 1rem;
     padding: 0;
-    border-radius: 5px;
+    border-radius: $border-radius;
   }
 
   .home-title {
-    width: 100%;
+    width: 100vw;
     margin-bottom: 15% 15%;
     text-align: center;
     font-size: 2.5rem;
@@ -34,19 +38,13 @@
   }
 
   .hero-section {
-    width: 100%;
-    margin: 1%;
-    padding: 1%;
-    background-color: #46f0a789;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    @include section-base;
     justify-content: center;
-    border-radius: 10px;
+    
   }
 
   .hero-content {
-    width: 100%;
+    @include section-base;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -56,91 +54,88 @@
   }
 
   .contatti-footer-container {
-    width: 100%;
+    @include section-base;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: left;
-    margin: 0;
-    padding: 3%;
-    background-color: #3cd392;
+    padding: 1rem;
     color: #03f98e;
-    border-radius: 10px 10px 0px 0px;
     position: fixed;
     bottom: 0;
   }
 
 #search-input {
-    width: 100%;
-    padding: 10px;
+  @include button-base;
+    width: 95rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
     font-size: 1rem;
-    margin: 1%;
-    padding: 1%;
+    margin: 0.5rem;
   }
 #select-input {
+  @include button-base;
     background-color: #04ab63;
-    color:#ffff;
-    width: 35%;
-    padding: 1%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 5px;
+    border-radius: $border-radius;
     font-size: 1rem;
-    margin: 1%;
+    width: 15rem;
   }
 #search-button {
-    width: 20%;
-    margin: 1%;
-    padding: 1%;
+  @include button-base;
+    width: 15rem;
+    margin-right: 2rem;
     background-color: #04ab63;
-    color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
+    border-radius: $border-radius;
   }
 .results-container {
-  width: 100%;
+  width: 98vw;
   display: flex;
   flex-direction: column;
   background-color:#04ab63;
-  margin: 1%;
-  padding: 3%;
   border-radius:10px;
 }
 
 .book-result {
+  width: 45rem;
   margin: 1%;
   padding: 1%;
   display: flex;
   flex-direction: column;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: $border-radius;
+  background-color: #75f5c4;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
 
 }
 
 .book-cover {
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
   width: 30%;
   margin-top: 3%;
   margin-bottom: 3%;
+  margin-left: 5%;
 }
 
-#book-details {
-  width: 20%;
+.book-details {
+  width: 30%;
+  height: auto;
   margin: 1%;
   padding: 1%;
   background-color: #04ab63;
   color: white;
-  border: none;
+  border: 1px solid #ffffff;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
 }
 
 .book-description {
     position: fixed;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -154,3 +149,22 @@
     max-height: 40%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+
+
+.close-button {
+    background-color: #f73e06;
+    color: #f7f1f1;
+    width: 20%;
+    height: auto;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    cursor: pointer;
+    border-radius: $border-radius;
+    color: #471212;
+    font-weight: bold;
+    border: 1px solid #ffffff;  
+    box-shadow: $box-shadow;
+    position: fixed;
+    top: 10%;
+    right: 5%;
+}

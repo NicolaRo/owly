@@ -1,35 +1,24 @@
 $section-background: #46f0a789;
 $button-color: #04ab63;
 $border-radius: 5px;
-$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+$section-border-radius: 10px;
 
-.book-details {
-    background-color: #06f78f;
-    width: 30%;
-    height: auto;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    cursor: pointer;
-    border-radius: $border-radius;
-    color: #471212;
-    font-weight: bold;
+@mixin button-base {
+    padding: 1rem;
     border: 1px solid #ccc;
-}
-
-.close-button {
-    background-color: #f73e06;
-    color: #f7f1f1;
-    width: 20%;
-    height: auto;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    cursor: pointer;
     border-radius: $border-radius;
-    color: #471212;
-    font-weight: bold;
-    border: 1px solid #ffffff;  
+    font-size: 1rem;
+    cursor: pointer;
     box-shadow: $box-shadow;
-    position: fixed;
-    top: 10%;
-    right: 5%;
-}
+    transition: background-color 0.3s ease;
+    height: 3rem;
+    color:#ffff;
+    font-size: 1rem;
+  }
+
+  @mixin section-base {
+    background-color: $section-background;
+    border-radius: $section-border-radius;
+    width: 100vw;
+  }
