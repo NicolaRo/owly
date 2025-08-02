@@ -53,17 +53,7 @@
     margin: 1%;
   }
 
-  .contatti-footer-container {
-    @include section-base;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: left;
-    padding: 1rem;
-    color: #03f98e;
-    position: fixed;
-    bottom: 0;
-  }
+
 
 #search-input {
   @include button-base;
@@ -99,51 +89,78 @@
 
 .toggle-button {
   @include button-base;
+  margin: 1%;
+  padding: 1%;
+  color: gray;
+  border: light-gray;
+  width: 20rem;
+  right: 10rem;
 }
 
-.results-container {
+.results-container.list-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 3fr));
+  gap: 5rem;
+
+  &.book-result {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 3%;
+    background-color: #fd1616dd;
+  }
+  &.book-cover {
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    width: 15%;
+    height: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 3rem;
+  }
+  &.book-details {
+    @include button-base;
+    background-color: $button-color;
+    width: 20%;
+  }
+}
+
+.results-container.grid-view {
   background-color: #04ab63;
   border-radius: $border-radius;
+  display: flex;
+  flex-direction:column;
+  margin: 1%;
+  padding: 1%;
 
-  &.list-view {
-    .book-result {
-      display: block;
-      position:absolute;
-      top: 5rem;
-      right: -60rem;
-    }
+  &.book-result {
+    background-color: $section-background;
+    top: 5rem;
+    right: -60rem;
+    margin: 1%;
+    padding: 1%;
+    border-radius: $border-radius;
   }
-
-  &.grid-view {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 3fr));
-    gap: 1rem;
-
-    .book-result {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
+  &.book-cover {
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    width: 15%;
+    height: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 3rem;
+  }
+  &.book-details {
+    @include button-base;
+    background-color: $button-color;
+    width: 30%;
+  }
+}
     
-  }
-}
 
 
-.book-cover {
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
-  width: 15%;
-  height: auto;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  margin-left: 3rem;
-}
 
-.book-details {
-  @include button-base;
-  background-color: $button-color;
-  width: 30%;
-}
+
+
 
 .book-description {
     position: fixed;
@@ -178,4 +195,16 @@
     position: fixed;
     top: 1.5rem;
     right: 1.5rem;
+}
+
+.contatti-footer-container {
+  @include section-base;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: left;
+  padding: 1rem;
+  color: #03f98e;
+  position: fixed;
+  bottom: 0;
 }

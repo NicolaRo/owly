@@ -20,7 +20,7 @@ export function renderResults(books) {
 
   // 2. Crea un container per i risultati (perché non esiste nell'HTML)
   const resultsContainer = document.createElement("div");
-  resultsContainer.className = "results-container";
+  resultsContainer.className = "results-container list-view";
 
   // 3. Inserisci il container nella pagina (dopo la hero-section)
   const heroSection = document.querySelector(".hero-section");
@@ -30,7 +30,13 @@ export function renderResults(books) {
   toggleButton.className = "toggle-button";
   toggleButton.textContent = "Cambia vista";
   toggleButton.addEventListener("click", () => {
-    resultsContainer.classList.toggle("grid-view");
+    if (resultsContainer.classList.contains("list-view")) {
+      resultsContainer.classList.remove("list-view");
+      resultsContainer.classList.add("grid-view");
+    } else {
+      resultsContainer.classList.remove("grid-view");
+      resultsContainer.classList.add("list-view");
+    }
   });
 
   // 4. Se non ci sono libri, mostra messaggio
