@@ -101,16 +101,33 @@
   @include button-base;
 }
 
-.book-result {
-  margin: 1rem;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgb(255, 255, 255);
+.results-container {
+  background-color: #04ab63;
   border-radius: $border-radius;
-  background-color: #75f5c4;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
+  &.list-view {
+    .book-result {
+      display: block;
+      position:absolute;
+      top: 5rem;
+      right: -60rem;
+    }
+  }
+
+  &.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 3fr));
+    gap: 1rem;
+
+    .book-result {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+  }
 }
+
 
 .book-cover {
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
