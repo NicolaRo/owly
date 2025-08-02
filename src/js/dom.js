@@ -110,12 +110,13 @@ bookDetailsButtons.forEach((button) => {
             details.description || "Nessuna descrizione disponibile."
           }</p>
         `;
-        bookDescription.appendChild(closeButton);
       })
       .catch((error) => {
         console.error("Errore nel recupero dei dettagli del libro:", error);
         bookDescription.innerHTML =
           "<p>Errore nel caricamento dei dettagli del libro.</p>";
+      })
+      .finally(() => {
         bookDescription.appendChild(closeButton);
       });
     });

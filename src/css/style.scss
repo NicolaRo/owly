@@ -71,6 +71,7 @@
     border: 1px solid #ccc;
     font-size: 1rem;
     margin: 0.5rem;
+    color: black;
   }
 #select-input {
   @include button-base;
@@ -89,17 +90,16 @@
     border-radius: $border-radius;
   }
 .results-container {
-  width: 98vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   background-color:#04ab63;
-  border-radius:10px;
+  border-radius:$section-border-radius;
 }
 
 .book-result {
-  width: 45rem;
-  margin: 1%;
-  padding: 1%;
+  margin: 1rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   border: 1px solid rgb(255, 255, 255);
@@ -113,45 +113,39 @@
 .book-cover {
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
-  width: 30%;
-  margin-top: 3%;
-  margin-bottom: 3%;
-  margin-left: 5%;
+  width: 20%;
+  height: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 3rem;
 }
 
 .book-details {
+  @include button-base;
+  background-color: $button-color;
   width: 30%;
-  height: auto;
-  margin: 1%;
-  padding: 1%;
-  background-color: #04ab63;
-  color: white;
-  border: 1px solid #ffffff;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
 }
 
 .book-description {
     position: fixed;
-    top: 30%;
+    top: 15rem;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    height: fit-content;
-    padding: 5%;
-    background-color: #75f5c4;
+    padding: 1rem;
+    background-color: #4b9a7c;
+    color:white;
     border: 3px solid #060e55bd;
-    border-radius: 5px;
+    border-radius: $border-radius;
     font-size: 1rem;
     overflow-y: auto;
-    max-height: 40%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 15rem;
+    box-shadow: $box-shadow
   }
 
-
 .close-button {
+    
+  @include button-base;
     background-color: #f73e06;
     color: #f7f1f1;
     width: 20%;
@@ -160,11 +154,10 @@
     padding-bottom: 2%;
     cursor: pointer;
     border-radius: $border-radius;
-    color: #471212;
     font-weight: bold;
     border: 1px solid #ffffff;  
     box-shadow: $box-shadow;
     position: fixed;
-    top: 10%;
-    right: 5%;
+    top: 1.5rem;
+    right: 1.5rem;
 }
