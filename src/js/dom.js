@@ -114,25 +114,31 @@ export function renderResults(books) {
       // Appendo subito il div (così anche nel catch lo posso usare)
       resultsContainer.appendChild(bookDescription);
 
-      // Recupera i dettagli
-      getBookDetails(bookKey)
+      
+      getBookDetails(bookKey)// Recupera i dettagli del libro
         .then((details) => {
           bookDescription.innerHTML = `
-          <h4>${details.title}</h4>
-          <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
-          <p><strong>Autore:</strong> ${details.author_name.join(", ")}</p>
-          <p><strong>Anno:</strong> ${details.first_publish_year}</p>
-          <p><strong>Descrizione:</strong> ${
-            details.description || "Nessuna descrizione disponibile."
-          }</p>
-        `;
+            <h4>${details.title || "Titolo non disponibile"}</h4>
+            <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
+            <p><strong>Autore:</strong> ${
+              details.author_name && details.author_name.length > 0 // controlla che il nome dell'autore sia disponible e thruty
+                ? details.author_name.join(", ") //Se thruty lo mostra a display
+                : "Autore non disponibile" // Se il valore ottenuto è falsy informa che l'info non è disponibile
+            }</p>
+            <p><strong>Anno:</strong> ${
+              details.first_publish_year || "Anno non disponibile"
+            }</p>
+            <p><strong>Descrizione:</strong> ${
+              details.description || "Nessuna descrizione disponibile."
+            }</p>
+          `;
         })
-        .catch((error) => {
-          console.error("Errore nel recupero dei dettagli del libro:", error);
+        .catch((error) => { // Funzione catch per gestire gli errori
+          console.error("Errore nel recupero dei dettagli del libro:", error); 
           bookDescription.innerHTML =
             "<p>Errore nel caricamento dei dettagli del libro.</p>";
         })
-        .finally(() => {
+        .finally(() => {  // se non ci sono errori crea il modale con il bottone di chiusura
           bookDescription.appendChild(closeButton);
         });
     });
