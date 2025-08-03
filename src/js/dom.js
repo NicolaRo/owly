@@ -4,6 +4,7 @@
 
 import { getBookDetails, bookCover } from "./api.js";
 
+
 // Funzione per pulire i risultati precedenti
 export function clearResults() {
   const existingResults = document.querySelector(".results-container");
@@ -52,8 +53,8 @@ export function renderResults(books) {
   books.forEach((book, index) => {
     const coverId = book.cover_i;
     const coverUrl = coverId
-      ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
-      : "img/placeholder.jpg";
+  ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
+  : placeholderImage;
 
     const bookDiv = document.createElement("div");
     bookDiv.className = "book-result";
