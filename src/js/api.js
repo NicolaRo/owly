@@ -43,14 +43,18 @@ export function getBookDetails(bookKey) {
       details.author_name = ["Autore"]; // Placeholder per ora
     }
 
+    if (details.description && typeof details.description === 'object' && details.description.value) { // Open Library API restituiscono le descrizioni in formati diversi, così mi assicuro di mostrarli tutti.
+      details.description = details.description.value;
+    }
+
     return details;
   });
 }
   // Funzione per ottenere la copertina del libro
 
 export function bookCover(coverId) {
-  if (!coverId) { // Se NON ottiene la coverId..
-    return placeholderImage; // Usa l'immagine placeholder importata all'inizio
+  if (!coverId || coverId === "null"|| coverId === "undefined") { // Se coverId è falsy (sia "null", "undefined" come valore o come stringa)
+    return placeholderImage;// Usa l'immagine placeholder importata all'inizio
   }
   return `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`;
 }

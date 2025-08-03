@@ -53,7 +53,7 @@ export function renderResults(books) {
   // 5. Crea HTML per ogni libro con copertina
   books.forEach((book, index) => {
     const coverId = book.cover_i;
-    const coverUrl = bookCover(coverId);
+    const coverUrl = bookCover(coverId); // importo la funzione per la gestione della cover del libro da api.js
 
     const bookDiv = document.createElement("div");
     bookDiv.className = "book-result";
