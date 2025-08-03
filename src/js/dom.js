@@ -22,33 +22,42 @@ export function renderResults(books) {
   // 2. Crea un container per i risultati (perché non esiste nell'HTML)
   const resultsContainer = document.createElement("div");
   resultsContainer.className = "results-container list-view";
+  const togglePlaceholder = document.createElement("div"); // Crea il <div> in cui inserirlo per dare consistenza al layout
+  togglePlaceholder.className = "toggle-placeholder"; // Assegno una classe per dare lo stile in css
+
 
   // 3. Inserisci il container nella pagina (dopo la hero-section)
   const heroSection = document.querySelector(".hero-section");
   heroSection.insertAdjacentElement("afterend", resultsContainer);
 
   // 3.1 Crea il toggleButton per cambiare la visualizzazione dei risultati
-  const toggleButton = document.createElement("button");
-  toggleButton.className = "toggle-button";
-  toggleButton.textContent = "Cambia vista";
-  toggleButton.addEventListener("click", () => { //Event listener sul bottone
+
+const toggleButton = document.createElement("button"); // Creazione del bottone vero e proprio 
+toggleButton.className = "toggle-button"; 
+toggleButton.textContent = "Cambia vista";
+toggleButton.addEventListener("click", () => { // Creazione della funzione del toggle
     if (resultsContainer.classList.contains("list-view")) {
-      resultsContainer.classList.remove("list-view"); // aggiunge o rimuove una classe css a seconda della scelta dell'utente
-      resultsContainer.classList.add("grid-view");
+        resultsContainer.classList.remove("list-view");
+        resultsContainer.classList.add("grid-view");
     } else {
-      resultsContainer.classList.remove("grid-view");
-      resultsContainer.classList.add("list-view");
+        resultsContainer.classList.remove("grid-view");
+        resultsContainer.classList.add("list-view");
     }
-  });
+});
+
+togglePlaceholder.appendChild(toggleButton); // Metto il bottone dentro il wrapper
+resultsContainer.appendChild(togglePlaceholder); // Metto il wrapper nel container
 
   // 4. Se non ci sono libri, mostra messaggio
   if (!books || books.length === 0) {
-    resultsContainer.innerHTML = "<p>Nessun risultato trovato</p>";
+    const noResultsMsg = document.createElement("p");
+    noResultsMsg.textContent = "Nessun risultato trovato";
+    resultsContainer.appendChild(noResultsMsg);
     return;
   }
 
-  // 5. Inserisco il toggle prima dei risultati
-  resultsContainer.appendChild(toggleButton);
+ /*  // 5. Inserisco il toggle prima dei risultati
+  resultsContainer.appendChild(toggleButton); */
 
   // 5. Crea HTML per ogni libro con copertina
   books.forEach((book, index) => {
