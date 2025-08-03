@@ -26,13 +26,14 @@ export function renderResults(books) {
   // 3. Inserisci il container nella pagina (dopo la hero-section)
   const heroSection = document.querySelector(".hero-section");
   heroSection.insertAdjacentElement("afterend", resultsContainer);
-  // 3.1 Crea il toggleButton
+
+  // 3.1 Crea il toggleButton per cambiare la visualizzazione dei risultati
   const toggleButton = document.createElement("button");
   toggleButton.className = "toggle-button";
   toggleButton.textContent = "Cambia vista";
-  toggleButton.addEventListener("click", () => {
+  toggleButton.addEventListener("click", () => { //Event listener sul bottone
     if (resultsContainer.classList.contains("list-view")) {
-      resultsContainer.classList.remove("list-view");
+      resultsContainer.classList.remove("list-view"); // aggiunge o rimuove una classe css a seconda della scelta dell'utente
       resultsContainer.classList.add("grid-view");
     } else {
       resultsContainer.classList.remove("grid-view");
@@ -52,9 +53,7 @@ export function renderResults(books) {
   // 5. Crea HTML per ogni libro con copertina
   books.forEach((book, index) => {
     const coverId = book.cover_i;
-    const coverUrl = coverId
-  ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
-  : placeholderImage;
+    const coverUrl = bookCover(coverId);
 
     const bookDiv = document.createElement("div");
     bookDiv.className = "book-result";
@@ -86,7 +85,7 @@ export function renderResults(books) {
     resultsContainer.appendChild(bookDiv);
   });
 
-  // 7. Aggiungi un event listener per i bottoni dei dettagli
+  // 7. Aggiungi un event listener per il bottone "Dettagli libro"
   const bookDetailsButtons = document.querySelectorAll(".book-details");
   bookDetailsButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -100,11 +99,11 @@ export function renderResults(books) {
       const coverId = button.getAttribute("data-cover");
       const coverUrl = bookCover(coverId);
 
-      // Crea il div per la descrizione (modale)
+      // Crea il div per la descrizione del libro (modale)
       const bookDescription = document.createElement("div");
       bookDescription.className = "book-description";
 
-      // Aggiungi un bottone di chiusura
+      // Aggiungi un bottone di chiusura del modale
       const closeButton = document.createElement("button");
       closeButton.className = "close-button";
       closeButton.textContent = "Chiudi";
