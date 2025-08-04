@@ -4,7 +4,6 @@
 
 import { getBookDetails, bookCover } from "./api.js";
 
-
 // Funzione per pulire i risultati precedenti
 export function clearResults() {
   const existingResults = document.querySelector(".results-container");
@@ -29,7 +28,7 @@ export function renderResults(books) {
   heroSection.insertAdjacentElement("afterend", resultsContainer);
 
 
-  // 4. Se non ci sono libri, mostra messaggio
+  // 3.1 Se non ci sono libri, mostra messaggio
   if (!books || books.length === 0) {
     const noResultsMsg = document.createElement("p");
     noResultsMsg.textContent = "Nessun risultato trovato";
@@ -37,7 +36,7 @@ export function renderResults(books) {
     return;
   }
 
-  // 3.1 Crea il toggleButton per cambiare la visualizzazione dei risultati
+  // 4 Crea il toggleButton per cambiare la visualizzazione dei risultati
   const togglePlaceholder = document.createElement("div"); // Crea il <div> in cui inserirlo per dare consistenza al layout
   togglePlaceholder.className = "toggle-placeholder"; // Assegno una classe per dare lo stile in css
   
@@ -57,8 +56,6 @@ toggleButton.addEventListener("click", () => { // Creazione della funzione del t
 togglePlaceholder.appendChild(toggleButton); // Metto il bottone dentro il wrapper
 resultsContainer.appendChild(togglePlaceholder); // Metto il wrapper nel container
 
- /*  // 5. Inserisco il toggle prima dei risultati
-  resultsContainer.appendChild(toggleButton); */
 
   // 5. Crea HTML per ogni libro con copertina
   books.forEach((book, index) => {
@@ -67,39 +64,39 @@ resultsContainer.appendChild(togglePlaceholder); // Metto il wrapper nel contain
 
     const bookDiv = document.createElement("div");
     bookDiv.className = "book-result";
-    bookDiv.innerHTML =
-      // Inserisci i dati del libro nell'HTML
-      ` 
-      <h3>${book.title || "Titolo non disponibile"}</h3>
+    bookDiv.innerHTML = `
+  <h3>${book.title || "Titolo non disponibile"}</h3>
+  
+  <div class="book-content">
+    <div class="book-left">
+      <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
+      <button 
+        class="book-details" 
+        value="${book.key}"
+        data-cover="${coverId}" >
+        Dettagli Libro
+      </button>
+    </div>
 
-      <img src="${coverUrl}" 
-        alt="Copertina del libro" 
-        class="book-cover"
-      >
+    <div class="book-right">
       <p><strong>Autore:</strong> ${
-        book.author_name
-          ? book.author_name.join(", ")
-          : "Autore non disponibile"
+        book.author_name ? book.author_name.join(", ") : "Autore non disponibile"
       }</p>
       <p><strong>Anno:</strong> ${
         book.first_publish_year || "Anno non disponibile"
       }</p>
-      <button 
-        class="book-details" 
-        value="${book.key}"
-        data-cover="${coverId}" 
-        >
-        Dettagli Libro
-      </button> 
-    `;
+    </div>
+  </div>
+`;
+
     resultsContainer.appendChild(bookDiv);
   });
 
-  // 7. Aggiungi un event listener per il bottone "Dettagli libro"
+  // 6. Aggiungi un event listener per il bottone "Dettagli libro"
   const bookDetailsButtons = document.querySelectorAll(".book-details");
   bookDetailsButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      // Rimuove eventuale modale già presente
+      // 6.1 Rimuove eventuale modale già presente
       const existingModal = document.querySelector(".book-description");
       if (existingModal) {
         existingModal.remove();
@@ -109,11 +106,11 @@ resultsContainer.appendChild(togglePlaceholder); // Metto il wrapper nel contain
       const coverId = button.getAttribute("data-cover");
       const coverUrl = bookCover(coverId);
 
-      // Crea il div per la descrizione del libro (modale)
+      // 6.2 Crea il div per la descrizione del libro (modale)
       const bookDescription = document.createElement("div");
       bookDescription.className = "book-description";
 
-      // Aggiungi un bottone di chiusura del modale
+      // 6.3 Aggiungi un bottone di chiusura del modale
       const closeButton = document.createElement("button");
       closeButton.className = "close-button";
       closeButton.textContent = "Chiudi";
@@ -121,11 +118,11 @@ resultsContainer.appendChild(togglePlaceholder); // Metto il wrapper nel contain
         bookDescription.remove();
       });
 
-      // Appendo subito il div (così anche nel catch lo posso usare)
+      // 6.4 Appendo subito il div (così anche nel catch lo posso usare)
       resultsContainer.appendChild(bookDescription);
 
-      
-      getBookDetails(bookKey)// Recupera i dettagli del libro
+      // 7 Recupera i dettagli del libro
+      getBookDetails(bookKey)
         .then((details) => {
           bookDescription.innerHTML = `
             <h4>${details.title || "Titolo non disponibile"}</h4>
@@ -143,12 +140,15 @@ resultsContainer.appendChild(togglePlaceholder); // Metto il wrapper nel contain
             }</p>
           `;
         })
-        .catch((error) => { // Funzione catch per gestire gli errori
+        
+        // 8 Funzione catch per gestire gli errori
+        .catch((error) => { 
           console.error("Errore nel recupero dei dettagli del libro:", error); 
           bookDescription.innerHTML =
             "<p>Errore nel caricamento dei dettagli del libro.</p>";
         })
-        .finally(() => {  // se non ci sono errori crea il modale con il bottone di chiusura
+        // 9 se non ci sono errori crea il modale con il bottone di chiusura
+        .finally(() => {  
           bookDescription.appendChild(closeButton);
         });
     });
