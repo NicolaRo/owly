@@ -20,14 +20,41 @@ export function renderResults(books) {
 
   // 2. Crea un container per i risultati (perché non esiste nell'HTML)
   const resultsContainer = document.createElement("div");
-  resultsContainer.className = "results-container list-view";
-  
+  resultsContainer.className = "results-container list-view";  
 
   // 3. Inserisci il container nella pagina (dopo la hero-section)
   const heroSection = document.querySelector(".hero-section");
-  heroSection.insertAdjacentElement("afterend", resultsContainer);
+  heroSection.insertAdjacentElement("afterend", resultsContainer); 
+
+  // 4. Crea il wrapper per il bottone toggle
+  const togglePlaceholder = document.createElement("div");
+  togglePlaceholder.className = "toggle-placeholder";
+
+  const toggleButton = document.createElement("button");
+  toggleButton.className = "toggle-button";
+  toggleButton.textContent = "Cambia vista";
+
+  togglePlaceholder.appendChild(toggleButton);
+  resultsContainer.appendChild(togglePlaceholder);
+
+  // 5. Crea il wrapper che conterrà i book-result
+  const booksWrapper = document.createElement("div");
+  booksWrapper.className = "books-wrapper";
+  resultsContainer.appendChild(booksWrapper);
 
 
+// 4. Toggle view logic
+toggleButton.addEventListener("click", () => {
+  if (resultsContainer.classList.contains("list-view")) {
+    resultsContainer.classList.remove("list-view");
+    resultsContainer.classList.add("grid-view");
+  } else {
+    resultsContainer.classList.remove("grid-view");
+    resultsContainer.classList.add("list-view");
+  }
+});
+
+ 
   // 3.1 Se non ci sono libri, mostra messaggio
   if (!books || books.length === 0) {
     const noResultsMsg = document.createElement("p");
@@ -36,7 +63,7 @@ export function renderResults(books) {
     return;
   }
 
-  // 4 Crea il toggleButton per cambiare la visualizzazione dei risultati
+  /* // 4 Crea il toggleButton per cambiare la visualizzazione dei risultati
   const togglePlaceholder = document.createElement("div"); // Crea il <div> in cui inserirlo per dare consistenza al layout
   togglePlaceholder.className = "toggle-placeholder"; // Assegno una classe per dare lo stile in css
   
@@ -55,42 +82,42 @@ toggleButton.addEventListener("click", () => { // Creazione della funzione del t
 
 togglePlaceholder.appendChild(toggleButton); // Metto il bottone dentro il wrapper
 resultsContainer.appendChild(togglePlaceholder); // Metto il wrapper nel container
+ */
 
-
-  // 5. Crea HTML per ogni libro con copertina
-  books.forEach((book, index) => {
-    const coverId = book.cover_i;
-    const coverUrl = bookCover(coverId); // importo la funzione per la gestione della cover del libro da api.js
-
-    const bookDiv = document.createElement("div");
-    bookDiv.className = "book-result";
-    bookDiv.innerHTML = `
-  <h3>${book.title || "Titolo non disponibile"}</h3>
+    // 5. Crea HTML per ogni libro con copertina
+    books.forEach((book) => {
+      const coverUrl = bookCover(book.cover_i);
   
-  <div class="book-content">
-    <div class="book-left">
-      <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
-      <button 
-        class="book-details" 
-        value="${book.key}"
-        data-cover="${coverId}" >
-        Dettagli Libro
-      </button>
-    </div>
-
-    <div class="book-right">
-      <p><strong>Autore:</strong> ${
-        book.author_name ? book.author_name.join(", ") : "Autore non disponibile"
-      }</p>
-      <p><strong>Anno:</strong> ${
-        book.first_publish_year || "Anno non disponibile"
-      }</p>
-    </div>
-  </div>
-`;
-
-    resultsContainer.appendChild(bookDiv);
-  });
+      const bookDiv = document.createElement("div");
+      bookDiv.className = "book-result";
+      bookDiv.innerHTML = `
+        <h3>${book.title || "Titolo non disponibile"}</h3>
+        <div class="book-content">
+          <div class="book-left">
+            <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
+            <button 
+              class="book-details" 
+              value="${book.key}"
+              data-cover="${book.cover_i}" >
+              Dettagli Libro
+            </button>
+          </div>
+          <div class="book-right">
+            <p><strong>Autore:</strong> ${
+              book.author_name ? book.author_name.join(", ") : "Autore non disponibile"
+            }</p>
+            <p><strong>Anno:</strong> ${
+              book.first_publish_year || "Anno non disponibile"
+            }</p>
+          </div>
+        </div>
+      `;
+  
+      booksWrapper.appendChild(bookDiv);
+    });
+  
+/*     resultsContainer.appendChild(bookDiv);
+  }); */
 
   // 6. Aggiungi un event listener per il bottone "Dettagli libro"
   const bookDetailsButtons = document.querySelectorAll(".book-details");
@@ -153,4 +180,4 @@ resultsContainer.appendChild(togglePlaceholder); // Metto il wrapper nel contain
         });
     });
   });
-}
+  }
