@@ -11,6 +11,38 @@ export function clearResults() {
     existingResults.remove();
   }
 }
+
+// MODAL SYSTEM (add to dom.js)
+let activeModal = null;
+
+export function showModal(message, isError = true) {
+  // Close if one exists
+  if (activeModal) closeModal();
+
+  // Create modal
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <p style="color: ${isError ? '#d32f2f' : '#388e3c'}">${message}</p>
+      <button class="modal-close">OK</button>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  activeModal = modal;
+
+  // Close handlers
+  modal.querySelector('.modal-close').addEventListener('click', closeModal);
+}
+
+function closeModal() {
+  if (activeModal) {
+    activeModal.remove();
+    activeModal = null;
+  }
+}
+
 // Funzione per renderizzare i risultati
 export function renderResults(books) {
   console.log("Dom.js riceve questi libri:", books);
