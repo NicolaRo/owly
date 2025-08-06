@@ -94,9 +94,6 @@ toggleButton.addEventListener("click", () => {
   
       booksWrapper.appendChild(bookDiv);
     });
-  
-/*     resultsContainer.appendChild(bookDiv);
-  }); */
 
   // 6. Aggiungi un event listener per il bottone "Dettagli libro"
   const bookDetailsButtons = document.querySelectorAll(".book-details");

@@ -4,7 +4,7 @@ import "../css/style.scss";
 // Importa le funzioni 
 import { bookFinder } from "./api.js";
 import { renderResults, clearResults } from "./dom.js";
-import { debounce } from './utils.js'; 
+import { debounce } from './utils.js'; //DEBOUNCE  IMPORTANTE REFACTOR!!!
 
 // DOM References (declare once at top level)
 let searchButton, searchInput, selectInput, originalButtonText;
@@ -12,7 +12,13 @@ let searchButton, searchInput, selectInput, originalButtonText;
 // Funzione per gestire la ricerca
 function handleSearch() {
   const query = searchInput.value.trim();
+  // When starting search:
+searchButton.setAttribute('aria-busy', 'true');
+
+// When search completes/fails:
+searchButton.removeAttribute('aria-busy');
   const type = selectInput.value;
+
 
   if (!query || !type) {
     // Temporarily keeping alert - we'll replace with modal later
@@ -44,6 +50,9 @@ function handleSearch() {
 // Event listeners
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize DOM references
+  searchInput.setAttribute('aria-label', 'Barra di ricerca libri'); // Aria-labels migliorano  acessibilità tramite l'uso di Screen readers
+  selectInput.setAttribute('aria-label', 'Filtra per tipo di ricerca'); 
+  searchButton.setAttribute('aria-label', 'Avvia ricerca'); 
   searchButton = document.getElementById("search-button");
   searchInput = document.getElementById("search-input");
   selectInput = document.getElementById("select-input");
