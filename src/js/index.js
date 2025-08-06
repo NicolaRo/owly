@@ -2,54 +2,56 @@
 import "../css/style.scss";
 
 // Importa le funzioni 
-import { bookFinder, getBookDetails } from "./api.js"; // Chiamate API dal file api.js
-import { renderResults, clearResults } from "./dom.js"; // Risultati ottenuti e visualizzazione da dom.js
+import { bookFinder } from "./api.js";
+import { renderResults, clearResults } from "./dom.js";
 
-// Event listeners e logica principale
-document.addEventListener("DOMContentLoaded", function () { // Imposto eventListener su:
+// DOM References (declare once at top level)
+let searchButton, searchInput, selectInput, originalButtonText;
 
-  const searchButton = document.getElementById("search-button"); // Bottone "cerca"
+// Funzione per gestire la ricerca
+function handleSearch() {
+  const query = searchInput.value.trim();
+  const type = selectInput.value;
 
-  const searchInput = document.getElementById("search-input"); // Casella di input
-
-  const selectInput = document.getElementById("select-input"); // Tasto select
-  
-  searchButton.addEventListener("click", handleSearch); // Pulsante di ricerca
-
-  searchInput.addEventListener("keypress", function (e) { // Avvio la ricerca anche premendo "Invio" da tastiera
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  });
-
-  // Funzione per gestire la ricerca
-  function handleSearch() {
-    const query = searchInput.value.trim(); // Elimina spazi erronei nel campo ricerca
-    const type = selectInput.value;
-// Imposto alert nel caso di input non validi
-    if (!query) {
-      alert("Inserisci un termine di ricerca");
-      return;
-    }
-
-    if (!type) {
-      alert("Seleziona il tipo di ricerca");
-      return;
-    }
-
-    // Pulisci i risultati precedenti
-    clearResults();
-
-
-    // Eseguo la ricerca
-    bookFinder(query, type)
-      .then((results) => {
-        console.log("Risultati ottenuti:", results);
-        renderResults(results);
-      })
-      .catch((error) => {
-        console.error("Errore nella ricerca:", error);
-        alert("Errore durante la ricerca. Riprova.");
-      });
+  if (!query || !type) {
+    // Temporarily keeping alert - we'll replace with modal later
+    alert(!query ? "Inserisci un termine di ricerca" : "Seleziona il tipo di ricerca");
+    return;
   }
+
+  // Set loading state
+  searchButton.disabled = true;
+  searchButton.innerHTML = `
+    <span class="spinner"></span> Ricerca in corso...
+  `;
+
+  clearResults();
+
+  bookFinder(query, type)
+    .then(renderResults)
+    .catch((error) => {
+      console.error("Search error:", error);
+      alert("Errore durante la ricerca. Riprova più tardi.");
+    })
+    .finally(() => {
+      // Reset button state
+      searchButton.disabled = false;
+      searchButton.textContent = originalButtonText;
+    });
+}
+
+// Event listeners
+document.addEventListener("DOMContentLoaded", function () {
+  // Initialize DOM references
+  searchButton = document.getElementById("search-button");
+  searchInput = document.getElementById("search-input");
+  selectInput = document.getElementById("select-input");
+  originalButtonText = searchButton.textContent;
+
+  // Set up event listeners
+  searchButton.addEventListener("click", handleSearch);
+  
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") handleSearch();
+  });
 });

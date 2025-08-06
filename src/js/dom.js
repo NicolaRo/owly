@@ -63,27 +63,6 @@ toggleButton.addEventListener("click", () => {
     return;
   }
 
-  /* // 4 Crea il toggleButton per cambiare la visualizzazione dei risultati
-  const togglePlaceholder = document.createElement("div"); // Crea il <div> in cui inserirlo per dare consistenza al layout
-  togglePlaceholder.className = "toggle-placeholder"; // Assegno una classe per dare lo stile in css
-  
-const toggleButton = document.createElement("button"); // Creazione del bottone vero e proprio 
-toggleButton.className = "toggle-button"; 
-toggleButton.textContent = "Cambia vista";
-toggleButton.addEventListener("click", () => { // Creazione della funzione del toggle
-    if (resultsContainer.classList.contains("list-view")) {
-        resultsContainer.classList.remove("list-view");
-        resultsContainer.classList.add("grid-view");
-    } else {
-        resultsContainer.classList.remove("grid-view");
-        resultsContainer.classList.add("list-view");
-    }
-});
-
-togglePlaceholder.appendChild(toggleButton); // Metto il bottone dentro il wrapper
-resultsContainer.appendChild(togglePlaceholder); // Metto il wrapper nel container
- */
-
     // 5. Crea HTML per ogni libro con copertina
     books.forEach((book) => {
       const coverUrl = bookCover(book.cover_i);
