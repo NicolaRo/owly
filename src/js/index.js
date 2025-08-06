@@ -4,6 +4,7 @@ import "../css/style.scss";
 // Importa le funzioni 
 import { bookFinder } from "./api.js";
 import { renderResults, clearResults } from "./dom.js";
+import { debounce } from './utils.js'; 
 
 // DOM References (declare once at top level)
 let searchButton, searchInput, selectInput, originalButtonText;
@@ -51,7 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Set up event listeners
   searchButton.addEventListener("click", handleSearch);
   
-  searchInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") handleSearch();
-  });
+  searchInput.addEventListener('input', debounce(() => {
+    if (searchInput.value.trim().length > 2) {
+      handleSearch();
+    }
+  }, 500));
 });

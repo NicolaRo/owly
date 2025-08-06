@@ -1,0 +1,8 @@
+// Debouncing --> Effettua la chiamata API solo dopo 500ms dall'ultima lettera premuta nel campo di ricerca (migliora gestione banda e riduce consumo elettrico/impegno del server)
+export function debounce(func, wait = 500) {
+    let timeout;
+    return function(...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  }
