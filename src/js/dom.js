@@ -12,14 +12,14 @@ export function clearResults() {
   }
 }
 
-// MODAL SYSTEM (add to dom.js)
+// Attivazione modale
 let activeModal = null;
 
 export function showModal(message, isError = true) {
-  // Close if one exists
+  // Se non esiste nessun messaggio d'errore da mostrare chiude il modale
   if (activeModal) closeModal();
 
-  // Create modal
+  // Crea il modale vero e proprio
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.innerHTML = `
@@ -32,7 +32,7 @@ export function showModal(message, isError = true) {
   document.body.appendChild(modal);
   activeModal = modal;
 
-  // Close handlers
+  // Chiude il modale al click del bottone "OK"
   modal.querySelector('.modal-close').addEventListener('click', closeModal);
 }
 
