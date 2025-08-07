@@ -1,6 +1,6 @@
-// dom.js - Gestisce solo la manipolazione del DOM
+// dom.js - Gestisce la manipolazione del DOM
 
-//Importo le funzioni nnecessarie
+//Importo le funzioni principali create in api.js
 
 import { getBookDetails, bookCover } from "./api.js";
 
@@ -12,7 +12,8 @@ export function clearResults() {
   }
 }
 
-// Attivazione modale
+// Attivazione modale in caso di errori
+// Variabile per tenere traccia del modale attivo
 let activeModal = null;
 
 export function showModal(message, isError = true) {
@@ -20,6 +21,7 @@ export function showModal(message, isError = true) {
   if (activeModal) closeModal();
 
   // Crea il modale vero e proprio
+  // QUA CI VA UN ARIA-LABEL?
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.innerHTML = `
@@ -29,13 +31,13 @@ export function showModal(message, isError = true) {
     </div>
   `;
   
-  document.body.appendChild(modal);
-  activeModal = modal;
+  document.body.appendChild(modal); // Appende il modale al body
+  activeModal = modal; 
 
   // Chiude il modale al click del bottone "OK"
   modal.querySelector('.modal-close').addEventListener('click', closeModal);
 }
-
+// Funzione per chiudere il modale se esiste
 function closeModal() {
   if (activeModal) {
     activeModal.remove();
@@ -45,38 +47,40 @@ function closeModal() {
 
 // Funzione per renderizzare i risultati
 export function renderResults(books) {
-  console.log("Dom.js riceve questi libri:", books);
+  console.log("Dom.js riceve questi libri:", books); // Mostra a console il messaggio per debugging
 
   // 1. Pulisci risultati precedenti
   clearResults();
 
   // 2. Crea un container per i risultati (perché non esiste nell'HTML)
   const resultsContainer = document.createElement("div");
-  resultsContainer.className = "results-container list-view";  
+  resultsContainer.className = "results-container list-view";  // Imposta la classe per la visualizzazione predefinita
 
   // 3. Inserisci il container nella pagina (dopo la hero-section)
   const heroSection = document.querySelector(".hero-section");
   heroSection.insertAdjacentElement("afterend", resultsContainer); 
 
-  // 4. Crea il wrapper per il bottone toggle
+  // 4. Crea il wrapper per il toggle che cambia la visualizzazione dei risultati
   const togglePlaceholder = document.createElement("div");
   togglePlaceholder.className = "toggle-placeholder";
 
-  const toggleButton = document.createElement("button");
+  const toggleButton = document.createElement("button"); // creazione del toggle (button) vero e proprio // QUA CI VA UN ARIA-LABEL?
   toggleButton.className = "toggle-button";
-  toggleButton.textContent = "Cambia vista";
+  
+  toggleButton.textContent = "Cambia vista"; 
 
   togglePlaceholder.appendChild(toggleButton);
   resultsContainer.appendChild(togglePlaceholder);
 
   // 5. Crea il wrapper che conterrà i book-result
-  const booksWrapper = document.createElement("div");
+  const booksWrapper = document.createElement("div"); // QUA CI VA UN ARIA-LABEL?
   booksWrapper.className = "books-wrapper";
   resultsContainer.appendChild(booksWrapper);
 
 
-// 4. Toggle view logic
+// 6. Aggiungi l'event listener al bottone per cambiare la visualizzazione
 toggleButton.addEventListener("click", () => {
+  // 6.1 Cambia la classe del container per alternare tra list-view e grid-view
   if (resultsContainer.classList.contains("list-view")) {
     resultsContainer.classList.remove("list-view");
     resultsContainer.classList.add("grid-view");
@@ -87,9 +91,9 @@ toggleButton.addEventListener("click", () => {
 });
 
  
-  // 3.1 Se non ci sono libri, mostra messaggio
+  // 4. Se non ci sono libri, mostra messaggio
   if (!books || books.length === 0) {
-    const noResultsMsg = document.createElement("p");
+    const noResultsMsg = document.createElement("p"); // QUA CI VA UN ARIA-LABEL?
     noResultsMsg.textContent = "Nessun risultato trovato";
     resultsContainer.appendChild(noResultsMsg);
     return;
@@ -97,7 +101,7 @@ toggleButton.addEventListener("click", () => {
 
     // 5. Crea HTML per ogni libro con copertina
     books.forEach((book) => {
-      const coverUrl = bookCover(book.cover_i);
+      const coverUrl = bookCover(book.cover_i); // QUA CI VA UN ARIA-LABEL?
   
       const bookDiv = document.createElement("div");
       bookDiv.className = "book-result";
@@ -128,7 +132,7 @@ toggleButton.addEventListener("click", () => {
     });
 
   // 6. Aggiungi un event listener per il bottone "Dettagli libro"
-  const bookDetailsButtons = document.querySelectorAll(".book-details");
+  const bookDetailsButtons = document.querySelectorAll(".book-details"); // QUA CI VA UN ARIA-LABEL?
   bookDetailsButtons.forEach((button) => {
     button.addEventListener("click", () => {
       // 6.1 Rimuove eventuale modale già presente
@@ -142,18 +146,18 @@ toggleButton.addEventListener("click", () => {
       const coverUrl = bookCover(coverId);
 
       // 6.2 Crea il div per la descrizione del libro (modale)
-      const bookDescription = document.createElement("div");
+      const bookDescription = document.createElement("div"); // QUA CI VA UN ARIA-LABEL?
       bookDescription.className = "book-description";
 
       // 6.3 Aggiungi un bottone di chiusura del modale
-      const closeButton = document.createElement("button");
+      const closeButton = document.createElement("button"); // QUA CI VA UN ARIA-LABEL?
       closeButton.className = "close-button";
       closeButton.textContent = "Chiudi";
       closeButton.addEventListener("click", () => {
         bookDescription.remove();
       });
 
-      // 6.4 Appendo subito il div (così anche nel catch lo posso usare)
+      // 6.4 Appendo subito il div (per renderlo riutilizzabile anche nel "catch")
       resultsContainer.appendChild(bookDescription);
 
       // 7 Recupera i dettagli del libro
@@ -178,11 +182,11 @@ toggleButton.addEventListener("click", () => {
         
         // 8 Funzione catch per gestire gli errori
         .catch((error) => { 
-          console.error("Errore nel recupero dei dettagli del libro:", error); 
+          console.error("Errore nel recupero dei dettagli del libro:", error); // Mostra l'errore a console per debugging
           bookDescription.innerHTML =
             "<p>Errore nel caricamento dei dettagli del libro.</p>";
         })
-        // 9 se non ci sono errori crea il modale con il bottone di chiusura
+        // 8.1. se non ci sono errori crea il modale con il bottone di chiusura
         .finally(() => {  
           bookDescription.appendChild(closeButton);
         });

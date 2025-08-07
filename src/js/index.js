@@ -1,30 +1,45 @@
+// Index.js è l'entry point dell'applicazione
 // Importa gli stili SCSS
 import "../css/style.scss";
+
+// Importa la funzione bookFinder da api.js
 import { bookFinder } from "./api.js";
+
+// Importa da dom.js la funzione che gestisce il render dei risultati nel DOM
 import { renderResults, clearResults, showModal } from "./dom.js";
+
+// Importa da utilis.js la funzione debounce per ottimizzare le chiamate API
 import { debounce } from './utils.js';
 
-// DOM References (declare at top level without initialization)
+// Variabili globali per i riferimenti agli elementi del DOM
+// e per il testo originale del bottone di ricerca
 let searchButton, searchInput, selectInput, originalButtonText;
 
-// Funzione per gestire la ricerca
+// Creo la funzione per gestire la ricerca
 function handleSearch() {
+  // Controllo se il testo della ricerca ha il giusto numero di spazi
   const query = searchInput.value.trim();
+
+  // Controllo se l'utente ha selezionato un tipo di ricerca
   const type = selectInput.value;
 
+  // Se i campi non sono compilati, mostra un messaggio di errore
   if (!query || !type) {
-    showModal(!query ? "Inserisci un termine di ricerca" : "Seleziona il tipo di ricerca");
+  showModal(!query ? "Inserisci un termine di ricerca" : "Seleziona il tipo di ricerca"); // QUA CI VA UN ARIA-LABEL?
     return;
   }
 
-  // Set loading state
+  // Imposto il bottone di ricerca come disabilitato e cambio il testo per indicare che la ricerca è in corso
   searchButton.disabled = true;
   searchButton.innerHTML = `
     <span class="spinner"></span> Ricerca in corso...
   `;
 
+  // clearResults() è una funzione che rimuove i risultati precedenti dal DOM
+  // QUA CI VA UN ARIA-LABEL?
   clearResults();
 
+  // Eseguo la ricerca chiamando la funzione bookFinder con i parametri query e type
   bookFinder(query, type)
     .then(renderResults)
     .catch((error) => {

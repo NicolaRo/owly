@@ -1,60 +1,86 @@
-import axios from "axios"; // Importo il pacchetto AXIOS per inoltrare richieste HTTP tramite API
-import placeholderImage from "../img/book-cover-placeholder.jpg"; // Importa direttamente nel .js anche l'imagine di placeholder che utilizzerò in caso manchi la cover dalla API
+// Importo il pacchetto AXIOS per inoltrare richieste HTTP tramite API
+import axios from "axios";
 
-const baseUrl = process.env.API_BASE_URL; // imposto URL di base dell'API preso dalla variabile ambiente API_BASE_URL definita in dotenv.env
+// Importa direttamente nel .js anche l'imagine di placeholder che utilizzerò in caso manchi la cover dalla API
+import placeholderImage from "../img/book-cover-placeholder.jpg"; 
 
+// imposto URL di base dell'API preso dalla variabile ambiente API_BASE_URL definita in dotenv.env
+const baseUrl = process.env.API_BASE_URL; 
+
+// 1. Esporto la funzione bookFinder che accetta parametri: query e select
 export function bookFinder(query, type) {
-  // Esporto la funzione bookFinder che accetta parametri: query e select
+  
 
-  const fullUrl = `${baseUrl}/search.json?${type}=${encodeURIComponent(query)}`; // fullUrl aggiunge i parametri type e query inseriti dall'utente, all'url base. Trasmette la chiamata API secondo le indicazioni inserite.
+  // 1.1. fullUrl aggiunge i parametri type e query inseriti dall'utente, all'url base. Trasmette la chiamata API secondo le indicazioni inserite.
+  const fullUrl = `${baseUrl}/search.json?${type}=${encodeURIComponent(query)}`; 
 
-  console.log("URL richiesta:", fullUrl); // Mostro a console l'URL completo per il debug
+  // Mostro a console l'URL completo per il debug
+  console.log("URL richiesta:", fullUrl); 
 
+  
   if (!type) {
-    // se il type non selezionato (quindi nullo)
-    alert("Seleziona il tipo di ricerca."); // mostra questo messaggio in un alert
+    
+    // mostra questo messaggio in un alert
+    alert("Seleziona il tipo di ricerca."); // QUA CI VA UN ARIA-LABEL?
     return; // e termina la funzione
   }
 
+  // Return della Promise
   return axios
-    .get(fullUrl) // Return della Promise
+    .get(fullUrl) 
     .then((response) => {
       const allResults = response.data.docs;
-      /* const tenResults = allResults.length >= 10 ? allResults.slice(0, 10) : allResults; // Se i risultati sono più di 10, mostra solo i primi 10. linea commentata per eventuali future implementazioni*/
+      // Se i risultati sono più di 10, mostra solo i primi 10. linea commentata per eventuali future implementazioni*/
+      /* const tenResults = allResults.length >= 10 ? allResults.slice(0, 10) : allResults; */
+      console.log("tutti i risultati", allResults); // Mostro a console i risultati ottenuti per debug
 
-      console.log("tutti i risultati", allResults);
-
-      return allResults; // ritorno i risultati
+      // Ottengo i risultati e li restituisco
+      return allResults; 
     });
 }
 
+// 2. Esporto la funzione getBookDetails che accetta un parametro bookKey
+// 2.1. Questa funzione serve per ottenere i dettagli di un libro specifico, come titolo, autore, descrizione, copertina, ecc.
 export function getBookDetails(bookKey) {
-  // Funzione per ottenere i dettagli del libro
-  console.log("Verifica bookKey", bookKey); // Verifica a console la bookKey
-  const fullUrl = `${baseUrl}${bookKey}.json`; // Compone un nuovo URL per chiamata API includendo la bookKey del libro di cui l'utente vuole ottenere la descrizione.
-  console.log("URL dettagli libro:", fullUrl); // Ottengo a console l'URL composto e trasmesso per debug
 
+  // Funzione per ottenere i dettagli del libro
+  // 2.2. Verifica a console la bookKey
+  console.log("Verifica bookKey", bookKey);
+
+  // 2.3. Compone un nuovo URL per chiamata API includendo la bookKey del libro di cui l'utente vuole ottenere la descrizione.
+  const fullUrl = `${baseUrl}${bookKey}.json`;
+
+  // Ottengo a console l'URL composto e trasmesso per debug
+  console.log("URL dettagli libro:", fullUrl); 
+
+  // 2.4. Effettua la richiesta GET all'API per ottenere i dettagli del libro
+  // 2.5. Se la bookKey è falsy (null, undefined, ecc.) non effettua la richiesta e mostra un messaggio di errore
   return axios.get(fullUrl).then((response) => {
     console.log("Dettagli libro ottenuti:", response.data);
     const details = response.data; // Ottengo i dettagli
 
-    // Normalizza gli autori
+    // 2.6. Normalizza gli autori
     if (!details.author_name && details.authors) {
-      details.author_name = ["Autore"]; // Placeholder per ora
+      details.author_name = ["Autore"]; // Se non c'è author_name, ma ci sono autori, assegno un valore di default
     }
 
-    if (details.description && typeof details.description === 'object' && details.description.value) { // Open Library API restituiscono le descrizioni in formati diversi, così mi assicuro di mostrarli tutti.
+    // 2.7. Normalizza la descrizione
+    // Open Library API restituiscono le descrizioni in formati diversi, così mi assicuro di mostrarli tutti.
+    if (details.description && typeof details.description === 'object' && details.description.value) { 
       details.description = details.description.value;
     }
 
     return details;
   });
 }
-  // Funzione per ottenere la copertina del libro
+  // 3. Funzione per ottenere la copertina del libro
+  // // 3.1. Se il coverId è falsy (null, undefined, ecc.) restituisce un'immagine di placeholder
 
 export function bookCover(coverId) {
   if (!coverId || coverId === "null"|| coverId === "undefined") { // Se coverId è falsy (sia "null", "undefined" come valore o come stringa)
-    return placeholderImage;// Usa l'immagine placeholder importata all'inizio
+    
+    // Usa l'immagine placeholder importata all'inizio
+    return placeholderImage;
   }
   return `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`;
 }
