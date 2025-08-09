@@ -101,6 +101,8 @@ toggleButton.addEventListener("click", () => {
 
     // 5. Crea HTML per ogni libro con copertina
     books.forEach((book) => {
+      console.log("Book details:", book); // Mostra a console i dettagli del libro per debugging
+
       const coverUrl = bookCover(book.cover_i); // QUA CI VA UN ARIA-LABEL?
   
       const bookDiv = document.createElement("div");
@@ -113,6 +115,7 @@ toggleButton.addEventListener("click", () => {
             <button 
               class="book-details" 
               value="${book.key}"
+              data-bookInfo="${JSON.stringify(book)}"
               data-cover="${book.cover_i}" >
               Dettagli Libro
             </button>
@@ -134,6 +137,8 @@ toggleButton.addEventListener("click", () => {
   // 6. Aggiungi un event listener per il bottone "Dettagli libro"
   const bookDetailsButtons = document.querySelectorAll(".book-details"); // QUA CI VA UN ARIA-LABEL?
   bookDetailsButtons.forEach((button) => {
+  
+    console.log("Button value",button.value); // Mostra a console il bottone per debugging
     button.addEventListener("click", () => {
       // 6.1 Rimuove eventuale modale già presente
       const existingModal = document.querySelector(".book-description");
@@ -142,12 +147,14 @@ toggleButton.addEventListener("click", () => {
       }
 
       const bookKey = button.value;
+      /* const bookInfo = JSON.parse(button.getAttribute("data-bookInfo")); // Ottiene le informazioni del libro dal data attribute  */
       const coverId = button.getAttribute("data-cover");
       const coverUrl = bookCover(coverId);
 
       // 6.2 Crea il div per la descrizione del libro (modale)
       const bookDescription = document.createElement("div"); // QUA CI VA UN ARIA-LABEL?
       bookDescription.className = "book-description";
+
 
       // 6.3 Aggiungi un bottone di chiusura del modale
       const closeButton = document.createElement("button"); // QUA CI VA UN ARIA-LABEL?
@@ -163,16 +170,21 @@ toggleButton.addEventListener("click", () => {
       // 7 Recupera i dettagli del libro
       getBookDetails(bookKey)
         .then((details) => {
+          console.log("Anno:", button.getAttribute('bookInfo')) // Mostra a console l'anno per debugging
           bookDescription.innerHTML = `
             <h4>${details.title || "Titolo non disponibile"}</h4>
             <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
             <p><strong>Autore:</strong> ${
+             
+             // Devo parsare l'array degli autori per ottenere la author name 
+             // poi faccio altra chiamata API e riporto il nome dell'autore
               details.author_name && details.author_name.length > 0 // controlla che il nome dell'autore sia disponible e thruty
                 ? details.author_name.join(", ") //Se thruty lo mostra a display
                 : "Autore non disponibile" // Se il valore ottenuto è falsy informa che l'info non è disponibile
             }</p>
             <p><strong>Anno:</strong> ${
-              details.first_publish_year || "Anno non disponibile"
+              button.getAttribute('bookInfo')|| "Anno non disponibile"
+              
             }</p>
             <p><strong>Descrizione:</strong> ${
               details.description || "Nessuna descrizione disponibile."

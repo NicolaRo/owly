@@ -21,7 +21,7 @@ export function bookFinder(query, type) {
   if (!type) {
     
     // mostra questo messaggio in un alert
-    alert("Seleziona il tipo di ricerca."); // QUA CI VA UN ARIA-LABEL?
+    alert("Seleziona il tipo di ricerca."); // SOSTITUIRE ALERT CON UN MODALE (e poi dagli l'aria-label)
     return; // e termina la funzione
   }
 
@@ -30,8 +30,7 @@ export function bookFinder(query, type) {
     .get(fullUrl) 
     .then((response) => {
       const allResults = response.data.docs;
-      // Se i risultati sono più di 10, mostra solo i primi 10. linea commentata per eventuali future implementazioni*/
-      /* const tenResults = allResults.length >= 10 ? allResults.slice(0, 10) : allResults; */
+    
       console.log("tutti i risultati", allResults); // Mostro a console i risultati ottenuti per debug
 
       // Ottengo i risultati e li restituisco
