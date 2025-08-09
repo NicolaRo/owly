@@ -107,6 +107,10 @@ export function renderResults(books) {
 
     const bookDiv = document.createElement("div");
     bookDiv.className = "book-result";
+    // Lista autori sempre come array
+    const authors = Array.isArray(book.author_name) ? book.author_name : [];
+    const authorsPreview = authors.slice(0, 2).join(", ");
+    const hasMoreAuthors = authors.length > 2;
     bookDiv.innerHTML = `
         <h3>${book.title || "Titolo non disponibile"}</h3>
         <div class="book-content">
@@ -122,15 +126,24 @@ export function renderResults(books) {
             </button>
           </div>
           <div class="book-right">
-            <p><strong>Autore:</strong> ${book.author_name ? book.author_name.join(", ") : "Autore non disponibile"
-      }</p>
-            <p><strong>Anno:</strong> ${book.first_publish_year || "Anno non disponibile"
-      }</p>
+            <p><strong>Autore:</strong> 
+              ${authors.length === 0 
+                ? "Autore non disponibile" 
+                : authorsPreview}
+              ${hasMoreAuthors ? `<button class="show-more-authors" type="button">...</button>` : ""}
+            </p>
+            <p><strong>Anno:</strong> ${book.first_publish_year || "Anno non disponibile"}</p>
           </div>
         </div>
       `;
 
     booksWrapper.appendChild(bookDiv);
+    if (hasMoreAuthors) {
+      const moreBtn = bookDiv.querySelector('.show-more-authors');
+      moreBtn.addEventListener('click', () => {
+        bookDiv.querySelector('.book-details')?.click();
+      });
+    }
   });
 
   // 6. Aggiungi un event listener per il bottone "Dettagli libro"
