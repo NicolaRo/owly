@@ -181,7 +181,7 @@ export function renderResults(books) {
               : "Autore non disponibile" // Se il valore ottenuto è falsy informa che l'info non è disponibile
             }</p>
           
-            <p><strong>Anno:</strong> ${button.getAttribute('bookYear') || "Anno non disponibile"
+            <p><strong>Anno:</strong> ${button.getAttribute('data-bookYear')/* ? button.getAttribute('bookYear') : "Anno non disponibile" */
 
             }</p>
             <p><strong>Descrizione:</strong> ${details.description || "Nessuna descrizione disponibile."
