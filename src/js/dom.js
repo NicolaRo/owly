@@ -22,11 +22,11 @@ export function showModal(message, isError = true) {
 
   // Crea il modale vero e proprio
   // QUA CI VA UN ARIA-LABEL?
-  const modal = document.createElement('div');
-  modal.className = 'modal';
+  const modal = document.createElement("div");
+  modal.className = "modal";
   modal.innerHTML = `
     <div class="modal-content">
-      <p style="color: ${isError ? '#d32f2f' : '#388e3c'}">${message}</p>
+      <p style="color: ${isError ? "#d32f2f" : "#388e3c"}">${message}</p>
       <button class="modal-close">OK</button>
     </div>
   `;
@@ -35,7 +35,7 @@ export function showModal(message, isError = true) {
   activeModal = modal;
 
   // Chiude il modale al click del bottone "OK"
-  modal.querySelector('.modal-close').addEventListener('click', closeModal);
+  modal.querySelector(".modal-close").addEventListener("click", closeModal);
 }
 // Funzione per chiudere il modale se esiste
 function closeModal() {
@@ -54,7 +54,7 @@ export function renderResults(books) {
 
   // 2. Crea un container per i risultati (perché non esiste nell'HTML)
   const resultsContainer = document.createElement("div");
-  resultsContainer.className = "results-container list-view";  // Imposta la classe per la visualizzazione predefinita
+  resultsContainer.className = "results-container list-view"; // Imposta la classe per la visualizzazione predefinita
 
   // 3. Inserisci il container nella pagina (dopo la hero-section)
   const heroSection = document.querySelector(".hero-section");
@@ -77,7 +77,6 @@ export function renderResults(books) {
   booksWrapper.className = "books-wrapper";
   resultsContainer.appendChild(booksWrapper);
 
-
   // 6. Aggiungi l'event listener al bottone per cambiare la visualizzazione
   toggleButton.addEventListener("click", () => {
     // 6.1 Cambia la classe del container per alternare tra list-view e grid-view
@@ -89,7 +88,6 @@ export function renderResults(books) {
       resultsContainer.classList.add("list-view");
     }
   });
-
 
   // 4. Se non ci sono libri, mostra messaggio
   if (!books || books.length === 0) {
@@ -121,27 +119,33 @@ export function renderResults(books) {
                 value="${book.key}"
                 data-bookYear="${book.first_publish_year}"
                 data-cover="${book.cover_i}" 
-                data-author="${book.author_name }">
+                data-author="${book.author_name}">
               Dettagli Libro
             </button>
           </div>
           <div class="book-right">
             <p><strong>Autore:</strong> 
-              ${authors.length === 0 
-                ? "Autore non disponibile" 
-                : authorsPreview}
-              ${hasMoreAuthors ? `<button class="show-more-authors" type="button">...</button>` : ""}
+              ${
+                authors.length === 0 ? "Autore non disponibile" : authorsPreview
+              }
+              ${
+                hasMoreAuthors
+                  ? `<button class="show-more-authors" type="button">...</button>`
+                  : ""
+              }
             </p>
-            <p><strong>Anno:</strong> ${book.first_publish_year || "Anno non disponibile"}</p>
+            <p><strong>Anno:</strong> ${
+              book.first_publish_year || "Anno non disponibile"
+            }</p>
           </div>
         </div>
       `;
 
     booksWrapper.appendChild(bookDiv);
     if (hasMoreAuthors) {
-      const moreBtn = bookDiv.querySelector('.show-more-authors');
-      moreBtn.addEventListener('click', () => {
-        bookDiv.querySelector('.book-details')?.click();
+      const moreBtn = bookDiv.querySelector(".show-more-authors");
+      moreBtn.addEventListener("click", () => {
+        bookDiv.querySelector(".book-details")?.click();
       });
     }
   });
@@ -149,7 +153,6 @@ export function renderResults(books) {
   // 6. Aggiungi un event listener per il bottone "Dettagli libro"
   const bookDetailsButtons = document.querySelectorAll(".book-details"); // QUA CI VA UN ARIA-LABEL?
   bookDetailsButtons.forEach((button) => {
-
     console.log("Button value", button.value); // Mostra a console il bottone per debugging
     button.addEventListener("click", () => {
       // 6.1 Rimuove eventuale modale già presente
@@ -167,7 +170,6 @@ export function renderResults(books) {
       const bookDescription = document.createElement("div"); // QUA CI VA UN ARIA-LABEL?
       bookDescription.className = "book-description";
 
-
       // 6.3 Aggiungi un bottone di chiusura del modale
       const closeButton = document.createElement("button"); // QUA CI VA UN ARIA-LABEL?
       closeButton.className = "close-button";
@@ -182,13 +184,23 @@ export function renderResults(books) {
       // 7 Recupera i dettagli del libro
       getBookDetails(bookKey)
         .then((details) => {
-          console.log("button:", button.getAttribute('data-bookYear')) // Mostra a console l'anno per debugging
+          console.log("button:", button.getAttribute("data-bookYear")); // Mostra a console l'anno per debugging
           bookDescription.innerHTML = `
             <h4>${details.title || "Titolo non disponibile"}</h4>
             <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
-            <p><strong>Autore:</strong> ${button.getAttribute('data-author') ? button.getAttribute('data-author') : "Autori non disponibili"}</p> 
-            <p><strong>Anno:</strong> ${button.getAttribute('data-bookYear') ? button.getAttribute('data-bookYear') : "Anno non disponibile"}</p>
-            <p><strong>Descrizione:</strong> ${details.description || "Nessuna descrizione disponibile."}</p>
+            <p><strong>Autore:</strong> ${
+              button.getAttribute("data-author")
+                ? button.getAttribute("data-author")
+                : "Autori non disponibili"
+            }</p> 
+            <p><strong>Anno:</strong> ${
+              button.getAttribute("data-bookYear")
+                ? button.getAttribute("data-bookYear")
+                : "Anno non disponibile"
+            }</p>
+            <p><strong>Descrizione:</strong> ${
+              details.description || "Nessuna descrizione disponibile."
+            }</p>
           `;
         })
 
