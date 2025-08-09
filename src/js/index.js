@@ -5,6 +5,7 @@ import { renderResults, clearResults, showModal } from "./dom.js";
 import { debounce } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  
   // riferimenti DOM (scoped, non globali)
   const searchButton = document.getElementById("search-button");
   const searchInput = document.getElementById("search-input");
