@@ -116,7 +116,8 @@ export function renderResults(books) {
               class="book-details" 
                 value="${book.key}"
                 data-bookYear="${book.first_publish_year}"
-                data-cover="${book.cover_i}" >
+                data-cover="${book.cover_i}" 
+                data-author="${book.author_name }">
               Dettagli Libro
             </button>
           </div>
@@ -168,24 +169,13 @@ export function renderResults(books) {
       // 7 Recupera i dettagli del libro
       getBookDetails(bookKey)
         .then((details) => {
-          console.log("button:", /* JSON.parse( */button.getAttribute('data-bookYear')) // Mostra a console l'anno per debugging
+          console.log("button:", button.getAttribute('data-bookYear')) // Mostra a console l'anno per debugging
           bookDescription.innerHTML = `
             <h4>${details.title || "Titolo non disponibile"}</h4>
             <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
-            <p><strong>Autore:</strong> ${
-
-            // Devo parsare l'array degli autori per ottenere la author name 
-            // poi faccio altra chiamata API e riporto il nome dell'autore
-            details.author_name && details.author_name.length > 0 // controlla che il nome dell'autore sia disponible e thruty
-              ? details.author_name.join(", ") //Se thruty lo mostra a display
-              : "Autore non disponibile" // Se il valore ottenuto è falsy informa che l'info non è disponibile
-            }</p>
-          
-            <p><strong>Anno:</strong> ${button.getAttribute('data-bookYear')/* ? button.getAttribute('bookYear') : "Anno non disponibile" */
-
-            }</p>
-            <p><strong>Descrizione:</strong> ${details.description || "Nessuna descrizione disponibile."
-            }</p>
+            <p><strong>Autore:</strong> ${button.getAttribute('data-author') ? button.getAttribute('data-author') : "Autori non disponibili"}</p> 
+            <p><strong>Anno:</strong> ${button.getAttribute('data-bookYear') ? button.getAttribute('data-bookYear') : "Anno non disponibile"}</p>
+            <p><strong>Descrizione:</strong> ${details.description || "Nessuna descrizione disponibile."}</p>
           `;
         })
 
