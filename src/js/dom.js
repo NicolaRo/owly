@@ -59,39 +59,42 @@ export function renderResults(books) {
   clearResults();
 
   const resultsContainer = document.createElement("div");
-resultsContainer.className = "results-container";
-const savedView = sessionStorage.getItem("viewMode") || "list-view";
-resultsContainer.classList.add(savedView);
+  resultsContainer.className = "results-container";
+  const savedView = sessionStorage.getItem("viewMode") || "list-view";
+  resultsContainer.classList.add(savedView);
 
-const heroSection = document.querySelector(".hero-section");
-heroSection.insertAdjacentElement("afterend", resultsContainer);
+  const heroSection = document.querySelector(".hero-section");
+  heroSection.insertAdjacentElement("afterend", resultsContainer);
 
-const togglePlaceholder = document.createElement("div");
-togglePlaceholder.className = "toggle-placeholder";
+  const togglePlaceholder = document.createElement("div");
+  togglePlaceholder.className = "toggle-placeholder";
 
-const toggleButton = document.createElement("button");
-toggleButton.className = "toggle-button";
-toggleButton.textContent = "Cambia vista";
-toggleButton.setAttribute("aria-label", "Cambia visualizzazione lista/griglia");
+  const toggleButton = document.createElement("button");
+  toggleButton.className = "toggle-button";
+  toggleButton.textContent = "Cambia vista";
+  toggleButton.setAttribute(
+    "aria-label",
+    "Cambia visualizzazione lista/griglia"
+  );
 
-togglePlaceholder.appendChild(toggleButton);
-resultsContainer.appendChild(togglePlaceholder);
+  togglePlaceholder.appendChild(toggleButton);
+  resultsContainer.appendChild(togglePlaceholder);
 
-const booksWrapper = document.createElement("div");
-booksWrapper.className = "books-wrapper";
-resultsContainer.appendChild(booksWrapper);
+  const booksWrapper = document.createElement("div");
+  booksWrapper.className = "books-wrapper";
+  resultsContainer.appendChild(booksWrapper);
 
-toggleButton.addEventListener("click", () => {
-  if (resultsContainer.classList.contains("list-view")) {
-    resultsContainer.classList.remove("list-view");
-    resultsContainer.classList.add("grid-view");
-    sessionStorage.setItem("viewMode", "grid-view");
-  } else {
-    resultsContainer.classList.remove("grid-view");
-    resultsContainer.classList.add("list-view");
-    sessionStorage.setItem("viewMode", "list-view");
-  }
-});
+  toggleButton.addEventListener("click", () => {
+    if (resultsContainer.classList.contains("list-view")) {
+      resultsContainer.classList.remove("list-view");
+      resultsContainer.classList.add("grid-view");
+      sessionStorage.setItem("viewMode", "grid-view");
+    } else {
+      resultsContainer.classList.remove("grid-view");
+      resultsContainer.classList.add("list-view");
+      sessionStorage.setItem("viewMode", "list-view");
+    }
+  });
 
   // 4. Se non ci sono libri, mostra messaggio
   if (!books || books.length === 0) {
