@@ -58,42 +58,40 @@ export function renderResults(books) {
   // 1. Pulisci risultati precedenti
   clearResults();
 
-  // 2. Crea un container per i risultati (perché non esiste nell'HTML)
   const resultsContainer = document.createElement("div");
-  resultsContainer.className = "results-container list-view"; // Imposta la classe per la visualizzazione predefinita
+resultsContainer.className = "results-container";
+const savedView = sessionStorage.getItem("viewMode") || "list-view";
+resultsContainer.classList.add(savedView);
 
-  // 3. Inserisci il container nella pagina (dopo la hero-section)
-  const heroSection = document.querySelector(".hero-section");
-  heroSection.insertAdjacentElement("afterend", resultsContainer);
+const heroSection = document.querySelector(".hero-section");
+heroSection.insertAdjacentElement("afterend", resultsContainer);
 
-  // 4. Crea il wrapper per il toggle che cambia la visualizzazione dei risultati
-  const togglePlaceholder = document.createElement("div");
-  togglePlaceholder.className = "toggle-placeholder";
+const togglePlaceholder = document.createElement("div");
+togglePlaceholder.className = "toggle-placeholder";
 
-  const toggleButton = document.createElement("button"); // creazione del toggle (button) vero e proprio // QUA CI VA UN ARIA-LABEL?
-  toggleButton.className = "toggle-button";
+const toggleButton = document.createElement("button");
+toggleButton.className = "toggle-button";
+toggleButton.textContent = "Cambia vista";
+toggleButton.setAttribute("aria-label", "Cambia visualizzazione lista/griglia");
 
-  toggleButton.textContent = "Cambia vista";
+togglePlaceholder.appendChild(toggleButton);
+resultsContainer.appendChild(togglePlaceholder);
 
-  togglePlaceholder.appendChild(toggleButton);
-  resultsContainer.appendChild(togglePlaceholder);
+const booksWrapper = document.createElement("div");
+booksWrapper.className = "books-wrapper";
+resultsContainer.appendChild(booksWrapper);
 
-  // 5. Crea il wrapper che conterrà i book-result
-  const booksWrapper = document.createElement("div"); // QUA CI VA UN ARIA-LABEL?
-  booksWrapper.className = "books-wrapper";
-  resultsContainer.appendChild(booksWrapper);
-
-  // 6. Aggiungi l'event listener al bottone per cambiare la visualizzazione
-  toggleButton.addEventListener("click", () => {
-    // 6.1 Cambia la classe del container per alternare tra list-view e grid-view
-    if (resultsContainer.classList.contains("list-view")) {
-      resultsContainer.classList.remove("list-view");
-      resultsContainer.classList.add("grid-view");
-    } else {
-      resultsContainer.classList.remove("grid-view");
-      resultsContainer.classList.add("list-view");
-    }
-  });
+toggleButton.addEventListener("click", () => {
+  if (resultsContainer.classList.contains("list-view")) {
+    resultsContainer.classList.remove("list-view");
+    resultsContainer.classList.add("grid-view");
+    sessionStorage.setItem("viewMode", "grid-view");
+  } else {
+    resultsContainer.classList.remove("grid-view");
+    resultsContainer.classList.add("list-view");
+    sessionStorage.setItem("viewMode", "list-view");
+  }
+});
 
   // 4. Se non ci sono libri, mostra messaggio
   if (!books || books.length === 0) {
