@@ -53,8 +53,6 @@
     margin-bottom: 1rem;
   }
 
-
-
 #search-input {
   @include button-base;
     width: 55rem;
@@ -272,7 +270,19 @@
   margin-top: 10px;
   z-index: 100;
 }
-
+.modal {
+  overlay: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
 .modal-content {
   position: fixed;
   top: 50%;
@@ -300,6 +310,21 @@
 
 .modal-content.error p {
   color: #d32f2f; // colore messaggio di errore
+}
+
+#modal-close {
+  @include button-base;
+  background-color: #f73e06;
+  color: #f7f1f1;
+  height: auto;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  cursor: pointer;
+  border-radius: $border-radius;
+  font-weight: bold;
+  border: 1px solid #ffffff;  
+  box-shadow: $box-shadow;
+
 }
 
 .show-more-authors {

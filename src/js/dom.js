@@ -13,8 +13,6 @@ export function clearResults() {
 }
 
 // Attivazione modale in caso di errori
-const modal = document.createElement("div");
-modal.className = "modal";
 // Variabile per tenere traccia del modale attivo
 let activeModal = null;
 
@@ -24,18 +22,20 @@ export function showModal(message, isError = true) {
 
   // Crea il modale vero e proprio
   // QUA CI VA UN ARIA-LABEL?
-  const modalContentClass = isError ? "modal-content error" : "modal-content";
-modal.innerHTML = `
-  <div class="${modalContentClass}"
-    role="alertdialog"
-    aria-modal="true"
-    aria-labelledby="dialog_label"
-    aria-describedby="dialog_desc">
-    <h2 id="dialog_label">${isError ? "Errore" : "Messaggio"}</h2>
-    <p id="dialog_desc">${message}</p>
-    <button class="modal-close">OK</button>
-  </div>
-`;
+  const modal = document.createElement("div");
+  modal.className = "modal";
+  modal.innerHTML = `
+    <div class="modal-content"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="dialog_label"
+      aria-describedby="dialog_desc">
+      <h2 id="dialog_label">${isError ? "Errore" : "Messaggio"}</h2>
+      <p id="dialog_desc" style="color: ${isError ? "#d32f2f" : "#388e3c"}">
+      ${message}
+      <button class="modal-close" id="modal-close">OK</button>
+    </div>
+  `;
 
   document.body.appendChild(modal); // Appende il modale al body
   activeModal = modal;
