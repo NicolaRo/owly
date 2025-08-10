@@ -85,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "input",
     debounce(() => {
       console.log("Query aggiornata:", searchInput.value.trim());
-      // puoi qui eventualmente fare live suggestions, ma evita di chiamare search automaticamente
     }, 500)
   );
 });

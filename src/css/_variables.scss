@@ -13,7 +13,7 @@ $book-result-background: rgba(70, 240, 167, 0.537254902);
     cursor: pointer;
     box-shadow: $box-shadow;
     transition: background-color 0.3s ease;
-    height: 3rem;
+    height: fit-content;
     color:#ffff;
     font-size: 1rem;
   }

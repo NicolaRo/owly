@@ -57,7 +57,7 @@
 
 #search-input {
   @include button-base;
-    width: 95rem;
+    width: 55rem;
     border: 1px solid #ccc;
     font-size: 1rem;
     margin: 0.5rem;
@@ -73,7 +73,7 @@
 }
 #search-button {
   @include button-base;
-    width: 15rem;
+    width: fit-content;
     margin-right: 2rem;
     background-color: #04ab63;
     border: none;
