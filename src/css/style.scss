@@ -294,6 +294,14 @@
   justify-content: center;
 }
 
+.modal-content p {
+  color: #388e3c; // colore messaggio normale
+}
+
+.modal-content.error p {
+  color: #d32f2f; // colore messaggio di errore
+}
+
 .show-more-authors {
   background-color: #04ab6300;
   color: white;
@@ -302,3 +310,4 @@
   cursor: pointer;
   font-size: 3rem;
 }
+

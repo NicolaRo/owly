@@ -46,15 +46,15 @@ document.addEventListener("DOMContentLoaded", () => {
     searchButton.setAttribute("aria-label", originalButtonAriaLabel);
   }
 
-  // funzione di ricerca (usa async/await per chiarezza)
-  async function handleSearch() {
-    const query = searchInput.value.trim();
-    const type = selectInput.value;
+    // funzione di ricerca (usa async/await per chiarezza)
+    async function handleSearch() {
+      const query = searchInput.value.trim();
+      const type = selectInput.value;
 
-    if (!query || !type) {
-      showModal(!query ? "Inserisci un termine di ricerca" : "Seleziona il tipo di ricerca");
-      return;
-    }
+      if (!query || !type) {
+        showModal(!query ? "Inserisci un termine di ricerca" : "Seleziona il tipo di ricerca");
+        return;
+      }
 
     setButtonLoadingState();
     clearResults();
@@ -88,6 +88,4 @@ document.addEventListener("DOMContentLoaded", () => {
       // puoi qui eventualmente fare live suggestions, ma evita di chiamare search automaticamente
     }, 500)
   );
-
-  selectInput.addEventListener("change", handleSearch);
 });
