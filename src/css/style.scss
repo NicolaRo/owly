@@ -134,6 +134,16 @@
     padding: 1rem;
   }
 
+  .book-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #333333b6;
+    border-radius: $border-radius;
+    color: #ffffff;
+    padding: 1rem;
+  }
+
   .book-result {
     background-color: $book-result-background;
     border-radius: $border-radius;
@@ -152,9 +162,9 @@
   margin: 2rem;
 }
   .results-container.grid-view.book-cover {
-    width: 120px;
+    width: 100%;
     height: auto;
-    margin-bottom: 1rem;
+    margin: 1rem;
     border-radius: 5px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     
@@ -233,7 +243,7 @@
     gap: 1rem;
     display: flex;
     flex-direction: column;
-    background-color: #0a0f3eb2;
+    background-color: #060e55;
     color:white;
     border: 3px solid #060e55bd;
     border-radius: $border-radius;
