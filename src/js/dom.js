@@ -160,7 +160,7 @@ export function renderResults(books) {
       });
     }
   });
-
+/* 
   // 6. Aggiungi un event listener per il bottone "Dettagli libro"
   const bookDetailsButtons = document.querySelectorAll(".book-details"); // QUA CI VA UN ARIA-LABEL?
   bookDetailsButtons.forEach((button) => {
@@ -170,61 +170,71 @@ export function renderResults(books) {
       const existingModal = document.querySelector(".book-description");
       if (existingModal) {
         existingModal.remove();
-      }
+      } */
 
-      const bookKey = button.value;
-      /* const bookInfo = JSON.parse(button.getAttribute("data-bookInfo")); // Ottiene le informazioni del libro dal data attribute */
-      const coverId = button.getAttribute("data-cover");
-      const coverUrl = bookCover(coverId);
+        const bookDetailsButtons = document.querySelectorAll(".book-details");
 
-      // 6.2 Crea il div per la descrizione del libro (modale)
-      const bookDescription = document.createElement("div"); // QUA CI VA UN ARIA-LABEL?
-      bookDescription.className = "book-description";
-
-      // 6.3 Aggiungi un bottone di chiusura del modale
-      const closeButton = document.createElement("button"); // QUA CI VA UN ARIA-LABEL?
-      closeButton.className = "close-button";
-      closeButton.textContent = "Chiudi";
-      closeButton.addEventListener("click", () => {
-        bookDescription.remove();
-      });
-
-      // 6.4 Appendo subito il div (per renderlo riutilizzabile anche nel "catch")
-      resultsContainer.appendChild(bookDescription);
-
-      // 7 Recupera i dettagli del libro
-      getBookDetails(bookKey)
-        .then((details) => {
-          console.log("button:", button.getAttribute("data-bookYear")); // Mostra a console l'anno per debugging
-          bookDescription.innerHTML = `
-            <h4>${details.title || "Titolo non disponibile"}</h4>
-            <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
-            <p><strong>Autore:</strong> ${
-              button.getAttribute("data-author")
-                ? button.getAttribute("data-author")
-                : "Autori non disponibili"
-            }</p> 
-            <p><strong>Anno:</strong> ${
-              button.getAttribute("data-bookYear")
-                ? button.getAttribute("data-bookYear")
-                : "Anno non disponibile"
-            }</p>
-            <p><strong>Descrizione:</strong> ${
-              details.description || "Nessuna descrizione disponibile."
-            }</p>
-          `;
-        })
-
-        // 8 Funzione catch per gestire gli errori
-        .catch((error) => {
-          console.error("Errore nel recupero dei dettagli del libro:", error); // Mostra l'errore a console per debugging
-          bookDescription.innerHTML =
-            "<p>Errore nel caricamento dei dettagli del libro.</p>";
-        })
-        // 8.1. se non ci sono errori crea il modale con il bottone di chiusura
-        .finally(() => {
-          bookDescription.appendChild(closeButton);
+        bookDetailsButtons.forEach((button) => {
+          // Imposta aria-label direttamente su ogni bottone
+          const title = button.getAttribute("data-title") || "Titolo non disponibile";
+          button.setAttribute("aria-label", `Dettagli del libro ${title}`);
+        
+          console.log("Button value", button.value);
+        
+          button.addEventListener("click", () => {
+            // Rimuove eventuale modale già presente
+            const existingModal = document.querySelector(".book-description");
+            if (existingModal) {
+              existingModal.remove();
+            }
+        
+            const bookKey = button.value;
+            const coverId = button.getAttribute("data-cover");
+            const coverUrl = bookCover(coverId);
+        
+            // Crea il div per la descrizione del libro (modale)
+            const bookDescription = document.createElement("div");
+            bookDescription.className = "book-description";
+            bookDescription.setAttribute("role", "dialog");
+            bookDescription.setAttribute("aria-modal", "true");
+            bookDescription.setAttribute("aria-labelledby", "bookTitle");
+        
+            // Bottone di chiusura con aria-label
+            const closeButton = document.createElement("button");
+            closeButton.className = "close-button";
+            closeButton.textContent = "Chiudi";
+            closeButton.setAttribute("aria-label", "Chiudi dettagli libro");
+            closeButton.addEventListener("click", () => {
+              bookDescription.remove();
+            });
+        
+            resultsContainer.appendChild(bookDescription);
+        
+            getBookDetails(bookKey)
+              .then((details) => {
+                bookDescription.innerHTML = `
+                  <h4 id="bookTitle">${details.title || "Titolo non disponibile"}</h4>
+                  <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
+                  <p><strong>Autore:</strong> ${
+                    button.getAttribute("data-author") || "Autori non disponibili"
+                  }</p> 
+                  <p><strong>Anno:</strong> ${
+                    button.getAttribute("data-bookYear") || "Anno non disponibile"
+                  }</p>
+                  <p><strong>Descrizione:</strong> ${
+                    details.description || "Nessuna descrizione disponibile."
+                  }</p>
+                `;
+              })
+              .catch((error) => {
+                console.error("Errore nel recupero dei dettagli del libro:", error);
+                bookDescription.innerHTML =
+                  "<p>Errore nel caricamento dei dettagli del libro.</p>";
+              })
+              .finally(() => {
+                bookDescription.appendChild(closeButton);
+              });
+          });
         });
-    });
-  });
-}
+
+      }
