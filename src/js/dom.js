@@ -20,8 +20,7 @@ export function showModal(message, isError = true) {
   // Se non esiste nessun messaggio d'errore da mostrare chiude il modale
   if (activeModal) closeModal();
 
-  // Crea il modale vero e proprio
-  // QUA CI VA UN ARIA-LABEL?
+  // Crea il modale vero e proprio con aria attributes per migliorare l'accessibilità
   const modal = document.createElement("div");
   modal.className = "modal";
   modal.innerHTML = `
@@ -127,10 +126,11 @@ export function renderResults(books) {
             <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
             <button 
               class="book-details" 
-                value="${book.key}"
-                data-bookYear="${book.first_publish_year}"
-                data-cover="${book.cover_i}" 
-                data-author="${book.author_name}">
+              value="${book.key}"
+              data-title="${book.title ? book.title.replace(/"/g, '&quot;') : 'Titolo non disponibile'}"
+              data-bookYear="${book.first_publish_year}"
+              data-cover="${book.cover_i}" 
+              data-author="${Array.isArray(book.author_name) ? book.author_name.join(', ') : 'Autore non disponibile'}">
               Dettagli Libro
             </button>
           </div>
@@ -153,6 +153,7 @@ export function renderResults(books) {
       `;
 
     booksWrapper.appendChild(bookDiv);
+    
     if (hasMoreAuthors) {
       const moreBtn = bookDiv.querySelector(".show-more-authors");
       moreBtn.addEventListener("click", () => {
@@ -160,26 +161,13 @@ export function renderResults(books) {
       });
     }
   });
-/* 
-  // 6. Aggiungi un event listener per il bottone "Dettagli libro"
-  const bookDetailsButtons = document.querySelectorAll(".book-details"); // QUA CI VA UN ARIA-LABEL?
-  bookDetailsButtons.forEach((button) => {
-    console.log("Button value", button.value); // Mostra a console il bottone per debugging
-    button.addEventListener("click", () => {
-      // 6.1 Rimuove eventuale modale già presente
-      const existingModal = document.querySelector(".book-description");
-      if (existingModal) {
-        existingModal.remove();
-      } */
 
         const bookDetailsButtons = document.querySelectorAll(".book-details");
-
+        
         bookDetailsButtons.forEach((button) => {
           // Imposta aria-label direttamente su ogni bottone
           const title = button.getAttribute("data-title") || "Titolo non disponibile";
-          button.setAttribute("aria-label", `Dettagli del libro ${title}`);
-        
-          console.log("Button value", button.value);
+          button.setAttribute("aria-label", `Ottieni i dettagli del libro ${title}`);
         
           button.addEventListener("click", () => {
             // Rimuove eventuale modale già presente
