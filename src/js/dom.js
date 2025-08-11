@@ -71,10 +71,7 @@ export function renderResults(books) {
   const toggleButton = document.createElement("button");
   toggleButton.className = "toggle-button";
   toggleButton.textContent = "Cambia vista";
-  toggleButton.setAttribute(
-    "aria-label",
-    "Cambia visualizzazione lista/griglia"
-  );
+  toggleButton.setAttribute("aria-label", "Cambia visualizzazione lista/griglia");
 
   togglePlaceholder.appendChild(toggleButton);
   resultsContainer.appendChild(togglePlaceholder);
@@ -167,6 +164,7 @@ export function renderResults(books) {
         bookDetailsButtons.forEach((button) => {
           // Imposta aria-label direttamente su ogni bottone
           const title = button.getAttribute("data-title") || "Titolo non disponibile";
+          // Aria label per ottenere il titolo di ciascun libro 
           button.setAttribute("aria-label", `Ottieni i dettagli del libro ${title}`);
         
           button.addEventListener("click", () => {
