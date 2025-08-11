@@ -2,6 +2,7 @@ $section-background: #0a0f3e5f;
 $button-color: #0a0f3ed8;
 $border-radius: 5px;
 $box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+$box-negative-shadow: 3px 3px 5pxrgba(250, 247, 247, 0.4);
 $section-border-radius: 10px;
 $book-result-background: #1b289c5c;
 
@@ -23,3 +24,13 @@ $book-result-background: #1b289c5c;
     border-radius: $section-border-radius;
     width: 100vw;
   }
+
+@mixin book-preview-details {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  border-radius: $border-radius;
+  width:fit-content;
+  height: fit-content;
+  margin: 1rem;
+}
