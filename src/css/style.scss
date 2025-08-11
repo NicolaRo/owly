@@ -143,7 +143,14 @@
     flex-direction: column;
     align-items: center;
   }
-
+.no-results {
+  justify-content: center;
+  display: flex;
+  font-weight: bold;
+  color: red;
+  font-size: 1.5rem;
+  margin: 2rem;
+}
   .results-container.grid-view.book-cover {
     width: 120px;
     height: auto;

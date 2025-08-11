@@ -98,8 +98,12 @@ export function renderResults(books) {
 
   // 4. Se non ci sono libri, mostra messaggio
   if (!books || books.length === 0) {
-    const noResultsMsg = document.createElement("p"); // QUA CI VA UN ARIA-LABEL?
+    const noResultsMsg = document.createElement("p");
+    noResultsMsg.setAttribute("role", "status"); // Aria attribute  per accessibilità
     noResultsMsg.textContent = "Nessun risultato trovato";
+    noResultsMsg.className = "no-results";
+    noResultsMsg.setAttribute("aria-live", "polite"); // Annuncia il cambiamento
+    noResultsMsg.setAttribute("aria-label", "Nessun risultato trovato");
     resultsContainer.appendChild(noResultsMsg);
     return;
   }
