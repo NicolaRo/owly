@@ -108,10 +108,15 @@ export function renderResults(books) {
   books.forEach((book) => {
     console.log("Book details:", book); // Mostra a console i dettagli del libro per debugging
 
-    const coverUrl = bookCover(book.cover_i); // QUA CI VA UN ARIA-LABEL?
+    const coverUrl = bookCover(book.cover_i);
 
     const bookDiv = document.createElement("div");
     bookDiv.className = "book-result";
+    
+    
+    // Imposta la classe css per gestire layout copertina libro
+    bookDiv.style.setProperty('--book-cover-url', `url(${coverUrl})`);
+
     // Lista autori sempre come array
     const authors = Array.isArray(book.author_name) ? book.author_name : [];
     const authorsPreview = authors.slice(0, 2).join(", ");
@@ -140,9 +145,7 @@ export function renderResults(books) {
                 hasMoreAuthors
                   ? `<button class="show-more-authors" type="button">...</button>`
                   : ""
-              }
-            </p>
-            <p><strong>Anno:</strong> ${
+              } <strong>Anno:</strong> ${
               book.first_publish_year || "Anno non disponibile"
             }</p>
           </div>

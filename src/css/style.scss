@@ -135,47 +135,100 @@
   }
 
   .book-result {
-    background-color: $book-result-background;
+    // TUTTE le proprietà dirette DEVONO stare PRIMA delle regole annidate
+    background-image: var(--book-cover-url);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: $book-result-background; // Fallback se l'immagine non carica
     border-radius: $border-radius;
-    color:#fffcfc;
+    color: #ffffff; // Testo bianco per contrasto
     padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 300px; // Altezza minima per le card
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        to bottom, 
+        rgba(0, 0, 0, 0.3) 0%, 
+        rgba(0, 0, 0, 0.7) 100%
+      );
+      border-radius: $border-radius;
+      z-index: 1;
+    }
+    
+    // Contenuto sopra l'overlay
+    > * {
+      position: relative;
+      z-index: 2;
+    }
     
     h3 {
       @include book-preview-details;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      text-align: center;
+      margin-bottom: 1rem;
     }
+    
     p {
       @include book-preview-details;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     }
-  }
 
-.no-results {
-  justify-content: center;
-  display: flex;
-  font-weight: bold;
-  color: red;
-  font-size: 1.5rem;
-  margin: 2rem;
-}
-  .results-container.grid-view.book-cover {
-    width: 100%;
-    height: auto;
-    margin: 1rem;
-    border-radius: 5px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    z-index: 0;
+    // Nascondi l'immagine della copertina nella grid-view
+    .book-left .book-cover {
+      display: none;
+    }
     
+    // Riorganizza il contenuto per la grid-view
+    .book-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-top: auto;
+    }
+    
+    .book-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .book-right {
+      text-align: center;
+      
+      p {
+        margin: 0.25rem 0;
+        font-size: 0.9rem;
+      }
+    }
   }
 
   .book-details {
     @include button-base;
-    background-color: $button-color;
-    margin: 1rem;
+    background-color: rgba(231, 83, 51, 0.9);
+    color: white;
+    margin: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    
+    &:hover {
+      background-color: rgba(231, 83, 51, 1);
+      transform: translateY(-2px);
+      transition: all 0.3s ease;
+    }
   }
 }
-
 
  .results-container.list-view {
   display: flex;
@@ -252,6 +305,7 @@
   overflow-y: auto;
   height: 35rem;
   box-shadow: $box-shadow;
+  z-index: 1500;
 }
 
   .book-description .book-cover {
