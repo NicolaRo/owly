@@ -145,7 +145,7 @@ export function renderResults(books) {
                 hasMoreAuthors
                   ? `<button class="show-more-authors" type="button">...</button>`
                   : ""
-              } <strong>Anno:</strong> ${
+              }<strong>Anno:</strong> ${
               book.first_publish_year || "Anno non disponibile"
             }</p>
           </div>
