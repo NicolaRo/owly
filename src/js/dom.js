@@ -1,7 +1,6 @@
 // dom.js - Gestisce la manipolazione del DOM
 
 //Importo le funzioni principali create in api.js
-
 import { getBookDetails, bookCover } from "./api.js";
 
 // Funzione per pulire i risultati precedenti
@@ -15,6 +14,10 @@ export function clearResults() {
 // Attivazione modale in caso di errori
 // Variabile per tenere traccia del modale attivo
 let activeModal = null;
+
+// Variabili globali per tenere traccia dei risultati e del conteggio
+let allResults = [];      // qui memorizziamo tutti i libri
+let displayedCount = 10;  // qui teniamo traccia di quanti libri stiamo visualizzando
 
 export function showModal(message, isError = true) {
   // Se non esiste nessun messaggio d'errore da mostrare chiude il modale
