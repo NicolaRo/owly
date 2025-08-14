@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const DotenvWebpackPlugin = require('dotenv-webpack'); // ← AGGIUNTO!
+const DotenvWebpackPlugin = require('dotenv-webpack');
 
 module.exports = {
   entry: './src/js/index.js',
@@ -41,9 +41,9 @@ module.exports = {
         },
       ],
     }),
-    new DotenvWebpackPlugin({         // ← AGGIUNTO!
-      path: './.env',                 // ← Path al file .env
-      safe: false,                    // ← Non richiede .env.example
+    new DotenvWebpackPlugin({         
+      path: './.env',                 
+      safe: false,                    
     }),
   ],
   devServer: {
