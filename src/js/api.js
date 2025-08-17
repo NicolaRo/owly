@@ -4,8 +4,13 @@ import axios from "axios";
 // Importa direttamente nel .js anche l'imagine di placeholder che utilizzerò in caso manchi la cover dalla API
 import placeholderImage from "../img/book-cover-placeholder.jpg"; 
 
+// Importo la funzione debugLog per mostrare a console i messaggi di debug
+import { debugLog } from "./utils.js";
+import { showModal } from "./dom.js";
+
 // imposto URL di base dell'API preso dalla variabile ambiente API_BASE_URL definita in dotenv.env
-const baseUrl = process.env.API_BASE_URL; 
+const baseUrl = process.env.API_BASE_URL || "https://openlibrary.org";
+
 
 // 1. Esporto la funzione bookFinder che accetta parametri: query e select
 export function bookFinder(query, type) {
@@ -15,13 +20,16 @@ export function bookFinder(query, type) {
   const fullUrl = `${baseUrl}/search.json?${type}=${encodeURIComponent(query)}`; 
 
   // Mostro a console l'URL completo per il debug
-  console.log("URL richiesta:", fullUrl); 
+  debugLog("URL richiesta:", fullUrl); 
 
   
   if (!type) {
     
     // mostra questo messaggio in un alert
-    alert("Seleziona il tipo di ricerca."); // SOSTITUIRE ALERT CON UN MODALE (e poi dagli l'aria-label)
+    showModal("Seleziona il tipo di ricerca.");
+    role="dialog";
+    aria-showModal; "true"
+  
     return; // e termina la funzione
   }
 
@@ -31,7 +39,7 @@ export function bookFinder(query, type) {
     .then((response) => {
       const allResults = response.data.docs;
     
-      console.log("tutti i risultati", allResults); // Mostro a console i risultati ottenuti per debug
+      debugLog("tutti i risultati", allResults); // Mostro a console i risultati ottenuti per debug
 
       // Ottengo i risultati e li restituisco
       return allResults; 
@@ -44,18 +52,18 @@ export function getBookDetails(bookKey) {
 
   // Funzione per ottenere i dettagli del libro
   // 2.2. Verifica a console la bookKey
-  console.log("Verifica bookKey", bookKey);
+  debugLog("Verifica bookKey", bookKey);
 
   // 2.3. Compone un nuovo URL per chiamata API includendo la bookKey del libro di cui l'utente vuole ottenere la descrizione.
   const fullUrl = `${baseUrl}${bookKey}.json`;
 
   // Ottengo a console l'URL composto e trasmesso per debug
-  console.log("URL dettagli libro:", fullUrl); 
+  debugLog("URL dettagli libro:", fullUrl); 
 
   // 2.4. Effettua la richiesta GET all'API per ottenere i dettagli del libro
   // 2.5. Se la bookKey è falsy (null, undefined, ecc.) non effettua la richiesta e mostra un messaggio di errore
   return axios.get(fullUrl).then((response) => {
-    console.log("Dettagli libro ottenuti:", response.data);
+    debugLog("Dettagli libro ottenuti:", response.data);
     const details = response.data; // Ottengo i dettagli
 
     // 2.6. Normalizza gli autori

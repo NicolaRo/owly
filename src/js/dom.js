@@ -1,5 +1,30 @@
 // dom.js - Gestisce la manipolazione del DOM
 
+// Importo la funzione debugLog per mostrare a console i messaggi di debug
+import { debugLog } from "./utils.js";
+
+// Aspetta che il DOM sia caricato
+document.addEventListener("DOMContentLoaded", () => {
+  const socialContainer = document.querySelector(".Social-container");
+  // Aggiungi un event listener per il click su ".social-contaier"
+  // Seleziona il contenitore dei link social
+  if (socialContainer) {
+    socialContainer.addEventListener("click", (event) => {
+      // Cerca se il click è avvenuto su un <a>
+      const link = event.target.closest("a");
+      // Se il link esiste, previeni il comportamento di default
+      // e apri il link in una nuova scheda
+      if (link) {
+        event.preventDefault(); // evita comportamento default
+        const url = link.getAttribute("href");
+
+        // Apri il link in una nuova scheda
+        window.open(url, "_blank", "noopener,noreferrer");
+      }
+    });
+  }
+});
+
 //Importo le funzioni principali create in api.js
 import { getBookDetails, bookCover } from "./api.js";
 
@@ -55,7 +80,7 @@ function closeModal() {
 
 // Funzione per renderizzare i risultati
 export function renderResults(books) {
-  console.log("Dom.js riceve questi libri:", books); // Mostra a console il messaggio per debugging
+  debugLog("Dom.js riceve questi libri:", books); // Mostra a console il messaggio per debugging
 
   // 1. Pulisci risultati precedenti
   clearResults();
@@ -109,7 +134,7 @@ export function renderResults(books) {
 
   // 5. Crea HTML per ogni libro con copertina
   books.forEach((book) => {
-    console.log("Book details:", book); // Mostra a console i dettagli del libro per debugging
+    debugLog("Book details:", book); // Mostra a console i dettagli del libro per debugging
 
     const coverUrl = bookCover(book.cover_i);
 

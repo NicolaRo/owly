@@ -1,8 +1,23 @@
 // index.js — entry point
+// Importa le dipendenze e il CSS
 import "../css/style.scss";
 import { bookFinder } from "./api.js";
 import { renderResults, clearResults, showModal } from "./dom.js";
 import { debounce } from "./utils.js";
+
+// Importo la funzione debugLog per mostrare a console i messaggi di debug
+import { debugLog } from "./utils.js";
+
+// Importa le immagini necessarie
+import owlyLogo from "../img/Owly-Logo.png";
+import githubLogo from "../img/social-icon/Github-Logo-Black.png";
+import favicon32 from "../img/social-icon/favicon-32x32.png";
+
+// Poi aggiorni dinamicamente gli src per consentire a webpack il caricamento delle immagini
+document.querySelector(".owly-Logo").src = owlyLogo;
+document.querySelector("img[alt='Nicola Rossi DevPortfolio']").src = favicon32;
+document.querySelector("img[alt='Nicola Rossi GitHub profile']").src = githubLogo;
+
 
 document.addEventListener("DOMContentLoaded", () => {
   
@@ -84,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
   searchInput.addEventListener(
     "input",
     debounce(() => {
-      console.log("Query aggiornata:", searchInput.value.trim());
+      debugLog("Query aggiornata:", searchInput.value.trim());
     }, 500)
   );
 });

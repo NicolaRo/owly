@@ -9,3 +9,9 @@ export function debounce(func, wait = 500) {
       timeout = setTimeout(() => func.apply(this, args), wait);
     };
   }
+
+export function debugLog(...args) {
+  if (process.env.NODE_ENV === "development") {
+    console.log(...args);
+  }
+}
