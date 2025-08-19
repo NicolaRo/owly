@@ -6,13 +6,13 @@ const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
   mode: "production",
-  devtool: false, // oppure "source-map" se vuoi sourcemap in prod
+  devtool: false, 
   output: {
     filename: "bundle.[contenthash].js",
   },
   module: {
     rules: [
-      // SCSS in PROD: estraiamo in file fisico
+      // SCSS in PROD: estrae i CSS in un file separato
       {
         test: /\.(scss|css)$/i,
         use: [
@@ -28,11 +28,11 @@ module.exports = merge(common, {
       filename: "styles.[contenthash].css",
     }),
     new Dotenv({
-      path: "./.env.production", // file prod (opzionale, vedi Step 6)
+      path: "./.env.production", // file prod con le variabili d'ambiente
       systemvars: true,          // se la variabile è su Netlify UI, la prende da lì
     }),
   ],
   optimization: {
-    splitChunks: { chunks: "all" }, // opzionale ma utile
+    splitChunks: { chunks: "all" }, // ottimizza il caricamento dei moduli
   },
 });
