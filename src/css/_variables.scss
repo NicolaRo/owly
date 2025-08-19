@@ -5,10 +5,15 @@ $box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
 $box-negative-shadow: 3px 3px 5pxrgba(250, 247, 247, 0.4);
 $section-border-radius: 10px;
 $book-result-background: #1b289c5c;
+$primary: #4a90e2;
+$secondary: #e75333;
+$success: #388e3c;
+$dark: #222;
+$light: #f9f9f9;
 
 @mixin button-base {
     padding: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid #0a66e7;
     border-radius: $border-radius;
     font-size: 1rem;
     cursor: pointer;

@@ -1,9 +1,9 @@
-// dom.js - Gestisce la manipolazione del DOM
+// dom.js - Gestisce la manipolazione del DOM con accorgimenti UX avanzati
 
 import { debugLog } from "./utils.js";
 import { getBookDetails, bookCover } from "./api.js";
 
-// ------------------------ SOCIAL ICONS ------------------------
+// ---------- Eventi social (event delegation) ----------
 document.addEventListener("DOMContentLoaded", () => {
   const socialContainer = document.querySelector(".Social-container");
   if (socialContainer) {
@@ -18,19 +18,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// ------------------------ UTILITY ------------------------
+// ---------- Funzioni generiche ----------
 export function clearResults() {
   const existingResults = document.querySelector(".results-container");
   if (existingResults) existingResults.remove();
 }
 
+// Modale errori/messaggi
 let activeModal = null;
-let allResults = [];
-let displayedCount = 10;
 
-// ------------------------ MODALE ------------------------
 export function showModal(message, isError = true) {
   if (activeModal) closeModal();
+
+  const backdrop = document.createElement("div");
+  backdrop.className = "modal-backdrop";
 
   const modal = document.createElement("div");
   modal.className = "modal";
@@ -41,31 +42,32 @@ export function showModal(message, isError = true) {
       aria-labelledby="dialog_label"
       aria-describedby="dialog_desc">
       <h2 id="dialog_label">${isError ? "Errore" : "Messaggio"}</h2>
-      <p id="dialog_desc" style="color: ${
-        isError ? "#d32f2f" : "#388e3c"
-      }">${message}</p>
+      <p id="dialog_desc" style="color: ${isError ? "#d32f2f" : "#388e3c"}">
+      ${message}
       <button class="modal-close" id="modal-close">OK</button>
     </div>
   `;
 
+  document.body.appendChild(backdrop);
   document.body.appendChild(modal);
   activeModal = modal;
 
-  const closeBtn = modal.querySelector(".modal-close");
-  closeBtn.focus();
-  closeBtn.addEventListener("click", closeModal);
+  modal.querySelector(".modal-close").addEventListener("click", closeModal);
+  backdrop.addEventListener("click", closeModal);
 }
 
 function closeModal() {
   if (activeModal) {
-    const lastFocus = activeModal.lastFocus;
+    document.querySelector(".modal-backdrop")?.remove();
     activeModal.remove();
     activeModal = null;
-    if (lastFocus) lastFocus.focus();
   }
 }
 
-// ------------------------ RENDER BOOKS ------------------------
+// ---------- Rendering risultati ----------
+let allResults = [];
+let displayedCount = 10;
+
 export function renderResults(books) {
   debugLog("Dom.js riceve questi libri:", books);
   clearResults();
@@ -78,38 +80,30 @@ export function renderResults(books) {
   const heroSection = document.querySelector(".hero-section");
   heroSection.insertAdjacentElement("afterend", resultsContainer);
 
-  // Toggle vista
   const togglePlaceholder = document.createElement("div");
   togglePlaceholder.className = "toggle-placeholder";
 
   const toggleButton = document.createElement("button");
   toggleButton.className = "toggle-button";
   toggleButton.textContent = "Cambia vista";
-  toggleButton.setAttribute(
-    "aria-label",
-    "Cambia visualizzazione lista/griglia"
-  );
-  toggleButton.setAttribute("aria-pressed", savedView === "grid-view");
+  toggleButton.setAttribute("aria-label", "Cambia visualizzazione lista/griglia");
 
   togglePlaceholder.appendChild(toggleButton);
   resultsContainer.appendChild(togglePlaceholder);
 
-  toggleButton.addEventListener("click", () => {
-    if (resultsContainer.classList.contains("list-view")) {
-      resultsContainer.classList.replace("list-view", "grid-view");
-      toggleButton.setAttribute("aria-pressed", "true");
-      sessionStorage.setItem("viewMode", "grid-view");
-    } else {
-      resultsContainer.classList.replace("grid-view", "list-view");
-      toggleButton.setAttribute("aria-pressed", "false");
-      sessionStorage.setItem("viewMode", "list-view");
-    }
-  });
-
-  // Contenitore libri
   const booksWrapper = document.createElement("div");
   booksWrapper.className = "books-wrapper";
   resultsContainer.appendChild(booksWrapper);
+
+  toggleButton.addEventListener("click", () => {
+    if (resultsContainer.classList.contains("list-view")) {
+      resultsContainer.classList.replace("list-view", "grid-view");
+      sessionStorage.setItem("viewMode", "grid-view");
+    } else {
+      resultsContainer.classList.replace("grid-view", "list-view");
+      sessionStorage.setItem("viewMode", "list-view");
+    }
+  });
 
   if (!books || books.length === 0) {
     const noResultsMsg = document.createElement("p");
@@ -122,86 +116,86 @@ export function renderResults(books) {
     return;
   }
 
-  // Render libri
   books.forEach((book) => {
     const coverUrl = bookCover(book.cover_i);
+
     const bookDiv = document.createElement("div");
     bookDiv.className = "book-result";
-    bookDiv.style.setProperty("--book-cover-url", `url(${coverUrl})`);
+    bookDiv.style.setProperty('--book-cover-url', `url(${coverUrl})`);
 
     const authors = Array.isArray(book.author_name) ? book.author_name : [];
     const authorsPreview = authors.slice(0, 2).join(", ");
     const hasMoreAuthors = authors.length > 2;
 
     bookDiv.innerHTML = `
-      <h3>${book.title || "Titolo non disponibile"}</h3>
-      <div class="book-content">
-        <div class="book-left">
-          <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
-          <button 
-  class="book-details" 
-  value="${book.key}"
-  data-title="${
-    book.title ? book.title.replace(/"/g, "&quot;") : "Titolo non disponibile"
-  }"
-  data-bookYear="${book.first_publish_year}"
-  data-cover="${book.cover_i}" 
-  data-author="${
-    Array.isArray(book.author_name)
-      ? book.author_name.join(", ")
-      : "Autore non disponibile"
-  }"
-  aria-label="Mostra dettagli del libro ${
-    book.title ? book.title : "Titolo non disponibile"
-  }">
-  Dettagli Libro
-</button>
-        </div>
-        <div class="book-right">
-          <p><strong>Autore:</strong> 
-            ${authors.length === 0 ? "Autore non disponibile" : authorsPreview}
-            ${
-              hasMoreAuthors
-                ? `<button class="show-more-authors" type="button">...</button>`
-                : ""
-            }
-            <strong>Anno:</strong> ${
-              book.first_publish_year || "Anno non disponibile"
-            }</p>
+      <div class="book-cover-container">
+        <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
+        <div class="book-overlay">
+          <h3>${book.title || "Titolo non disponibile"}</h3>
+          <div class="book-buttons">
+            <button class="book-details"
+              value="${book.key}"
+              data-title="${book.title ? book.title.replace(/"/g, '&quot;') : 'Titolo non disponibile'}"
+              data-bookYear="${book.first_publish_year}"
+              data-cover="${book.cover_i}"
+              data-author="${Array.isArray(book.author_name) ? book.author_name.join(', ') : 'Autore non disponibile'}"
+              aria-label="Ottieni i dettagli del libro ${book.title || 'Titolo non disponibile'}">
+              Dettagli
+            </button>
+            <button class="like-button" aria-label="Aggiungi ai preferiti">❤️</button>
+          </div>
         </div>
       </div>
+      <p class="book-meta">
+        <strong>Autore:</strong> ${authorsPreview || "Autore non disponibile"} 
+        ${hasMoreAuthors ? `<button class="show-more-authors" type="button">...</button>` : ""}
+        <strong>Anno:</strong> ${book.first_publish_year || "Anno non disponibile"}
+      </p>
     `;
 
     booksWrapper.appendChild(bookDiv);
 
     if (hasMoreAuthors) {
-      const moreBtn = bookDiv.querySelector(".show-more-authors");
-      moreBtn.addEventListener("click", () => {
+      bookDiv.querySelector(".show-more-authors").addEventListener("click", () => {
         bookDiv.querySelector(".book-details")?.click();
       });
     }
+
+    // ---------- Pulsante "Mi Piace" ----------
+    const likeButton = bookDiv.querySelector(".like-button");
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    if (favorites.includes(book.key)) likeButton.classList.add("liked");
+
+    likeButton.addEventListener("click", () => {
+      let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+      if (favorites.includes(book.key)) {
+        favorites = favorites.filter(k => k !== book.key);
+        likeButton.classList.remove("liked");
+      } else {
+        favorites.push(book.key);
+        likeButton.classList.add("liked");
+      }
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+    });
   });
 
-  // ------------------------ EVENT DELEGATION PER BOOK DETAILS ------------------------
+  // ---------- Dettagli libro (modale) ----------
   booksWrapper.addEventListener("click", (event) => {
     const button = event.target.closest(".book-details");
     if (!button) return;
 
+    const existingModal = document.querySelector(".book-description");
+    if (existingModal) existingModal.remove();
+
     const bookKey = button.value;
     const coverId = button.getAttribute("data-cover");
     const coverUrl = bookCover(coverId);
-
-    const existingModal = document.querySelector(".book-description");
-    if (existingModal) existingModal.remove();
 
     const bookDescription = document.createElement("div");
     bookDescription.className = "book-description";
     bookDescription.setAttribute("role", "dialog");
     bookDescription.setAttribute("aria-modal", "true");
     bookDescription.setAttribute("aria-labelledby", "bookTitle");
-
-    // Focus trap minimo: salva il pulsante che ha aperto il modale
-    bookDescription.lastFocus = button;
 
     const closeButton = document.createElement("button");
     closeButton.className = "close-button";
@@ -210,31 +204,21 @@ export function renderResults(books) {
     closeButton.addEventListener("click", () => bookDescription.remove());
 
     resultsContainer.appendChild(bookDescription);
-    closeButton.focus();
 
     getBookDetails(bookKey)
       .then((details) => {
         bookDescription.innerHTML = `
           <h4 id="bookTitle">${details.title || "Titolo non disponibile"}</h4>
           <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
-          <p><strong>Autore:</strong> ${
-            button.getAttribute("data-author") || "Autori non disponibili"
-          }</p> 
-          <p><strong>Anno:</strong> ${
-            button.getAttribute("data-bookYear") || "Anno non disponibile"
-          }</p>
-          <p><strong>Descrizione:</strong> ${
-            details.description || "Nessuna descrizione disponibile."
-          }</p>
+          <p><strong>Autore:</strong> ${button.getAttribute("data-author")}</p>
+          <p><strong>Anno:</strong> ${button.getAttribute("data-bookYear")}</p>
+          <p><strong>Descrizione:</strong> ${details.description || "Nessuna descrizione disponibile."}</p>
         `;
       })
       .catch((error) => {
         console.error("Errore nel recupero dei dettagli del libro:", error);
-        bookDescription.innerHTML =
-          "<p>Errore nel caricamento dei dettagli del libro.</p>";
+        bookDescription.innerHTML = "<p>Errore nel caricamento dei dettagli del libro.</p>";
       })
-      .finally(() => {
-        bookDescription.appendChild(closeButton);
-      });
+      .finally(() => bookDescription.appendChild(closeButton));
   });
 }
