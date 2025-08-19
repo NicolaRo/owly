@@ -1,4 +1,3 @@
-// webpack.dev.js
 const { merge } = require("webpack-merge");
 const Dotenv = require("dotenv-webpack");
 const common = require("./webpack.common.js");
@@ -11,7 +10,6 @@ module.exports = merge(common, {
   },
   module: {
     rules: [
-      // SCSS in DEV: iniettiamo lo stile a runtime (style-loader)
       {
         test: /\.(scss|css)$/i,
         use: [
@@ -29,8 +27,8 @@ module.exports = merge(common, {
   },
   plugins: [
     new Dotenv({
-      path: "./.env",     // file dev locale
-      systemvars: true,   // permette anche di leggere ENV di sistema
+      path: "./.env",
+      systemvars: true,
     }),
   ],
 });

@@ -13,14 +13,15 @@ import owlyLogo from "../img/Owly-Logo.png";
 import githubLogo from "../img/social-icon/Github-Logo-Black.png";
 import favicon32 from "../img/social-icon/favicon-32x32.png";
 
-// Poi aggiorni dinamicamente gli src per consentire a webpack il caricamento delle immagini
-document.querySelector(".owly-Logo").src = owlyLogo;
-document.querySelector("img[alt='Nicola Rossi DevPortfolio']").src = favicon32;
-document.querySelector("img[alt='Nicola Rossi GitHub profile']").src = githubLogo;
 
 
 document.addEventListener("DOMContentLoaded", () => {
   
+  //  aggiorna dinamicamente gli src per consentire a webpack il caricamento delle immagini
+  document.querySelector(".owly-Logo").src = owlyLogo;
+  document.querySelector("img[alt='Nicola Rossi DevPortfolio']").src = favicon32;
+  document.querySelector("img[alt='Nicola Rossi GitHub profile']").src = githubLogo;
+
   // riferimenti DOM (scoped, non globali)
   const searchButton = document.getElementById("search-button");
   const searchInput = document.getElementById("search-input");

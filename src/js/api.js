@@ -1,6 +1,3 @@
-console.log("process.env.API_BASE_URL:", process.env.API_BASE_URL);
-console.log("baseUrl:", baseUrl);
-
 import axios from "axios";
 import placeholderImage from "../img/book-cover-placeholder.jpg"; 
 import { debugLog } from "./utils.js";

@@ -1,4 +1,3 @@
-// webpack.prod.js
 const { merge } = require("webpack-merge");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const Dotenv = require("dotenv-webpack");
@@ -6,13 +5,12 @@ const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
   mode: "production",
-  devtool: false, 
+  devtool: false,
   output: {
     filename: "bundle.[contenthash].js",
   },
   module: {
     rules: [
-      // SCSS in PROD: estrae i CSS in un file separato
       {
         test: /\.(scss|css)$/i,
         use: [
@@ -28,11 +26,11 @@ module.exports = merge(common, {
       filename: "styles.[contenthash].css",
     }),
     new Dotenv({
-      path: "./.env.production", // file prod con le variabili d'ambiente
-      systemvars: true,          // se la variabile è su Netlify UI, la prende da lì
+      systemvars: true, // Per Netlify: prende le variabili dalle Environment Variables
+      silent: true, // Non crasha se non trova .env in production
     }),
   ],
   optimization: {
-    splitChunks: { chunks: "all" }, // ottimizza il caricamento dei moduli
+    splitChunks: { chunks: "all" },
   },
 });
