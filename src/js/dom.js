@@ -10,7 +10,7 @@ class EventDelegator {
   }
 
   initializeEventListeners() {
-    // Event delegation per tutti i click del documento
+    // Event delegation, imposto unico eventListener per tutti i click del documento
     document.addEventListener("click", this.handleDocumentClick.bind(this));
     
     // Event delegation per il DOMContentLoaded
@@ -22,21 +22,23 @@ class EventDelegator {
   }
 
   handleDocumentClick(event) {
-    // Gestione link social
+    // Gestione link social (ascolto i link nel parent .Social-container)
+    // Utilizzo closest per trovare il link più vicino evitando di dover specificare ogni volta il target
     const socialLink = event.target.closest(".Social-container a");
     if (socialLink) {
       this.handleSocialLink(event, socialLink);
       return;
     }
 
-    // Gestione dettagli libro
+    // Gestione dettagli libro utilizzo closes per trovare il bottone più vicino
+    // Evito così di specificare il target ogni volta
     const bookDetailsBtn = event.target.closest(".book-details");
     if (bookDetailsBtn) {
       this.handleBookDetails(event, bookDetailsBtn);
       return;
     }
 
-    // Gestione like button
+    // Gestione bottone "like"
     const likeBtn = event.target.closest(".like-button");
     if (likeBtn) {
       this.handleLikeButton(event, likeBtn);
@@ -50,7 +52,7 @@ class EventDelegator {
       return;
     }
 
-    // Gestione modale
+    // Gestione  bottone chiusura modale
     const modalClose = event.target.closest(".modal-close, .close-button");
     if (modalClose) {
       this.handleModalClose(event);
@@ -63,7 +65,7 @@ class EventDelegator {
       return;
     }
 
-    // Gestione autori aggiuntivi
+    // Gestione bottone per visualizzare autori aggiuntivi
     const showMoreAuthors = event.target.closest(".show-more-authors");
     if (showMoreAuthors) {
       this.handleShowMoreAuthors(event, showMoreAuthors);
@@ -81,21 +83,25 @@ handleSocialLink(event, link) {
   
   // Validazione URL semplice
   if (!url) {
-    console.warn("❌ URL è null/undefined");
+    console.warn("URL è null/undefined");
     return;
   }
   
-  const trimmedUrl = url.trim();
+  const trimmedUrl = url.trim(); // rimozione spazi bianchi iniziali e finali
   if (!trimmedUrl.startsWith("http://") && !trimmedUrl.startsWith("https://")) {
-    console.warn("❌ URL non inizia con http/https:", `"${trimmedUrl}"`);
+    console.warn("URL non inizia con http/https:", `"${trimmedUrl}"`);
     return;
   }
   
   // Apri il link senza controlli complessi
   window.open(trimmedUrl, "_blank", "noopener,noreferrer");
-  console.log("✅ Link aperto:", trimmedUrl);
+  console.log("Link aperto:", trimmedUrl);// Verifico il link aperto
 }
 
+//------------------------------------------------ gestione dettagli libro --------------------------------------------------------
+  // Mostra i dettagli del libro in un modale
+  // Utilizza il valore del bottone come chiave per recuperare i dettagli
+  // Rimuove eventuali modali esistenti prima di creare un nuovo modale
   handleBookDetails(event, button) {
     const existingModal = document.querySelector(".book-description");
     if (existingModal) existingModal.remove();
@@ -131,7 +137,9 @@ handleSocialLink(event, link) {
       button.style.transform = "scale(1)";
     }, 150);
   }
-
+//------------------------------------------------ gestione visualizzazione lista/griglia --------------------------------------------------------
+  // Gestisce il cambio di visualizzazione tra lista e griglia
+  // Utilizza sessionStorage per salvare la preferenza dell'utente
   handleViewToggle(event, button) {
     const resultsContainer = button.closest(".results-container");
     
@@ -153,7 +161,9 @@ handleSocialLink(event, link) {
     const bookModal = document.querySelector(".book-description");
     if (bookModal) bookModal.remove();
   }
-
+// ------------------------------------------------ gestione visualizzazione autori aggiuntivi --------------------------------------------------------
+  // Gestisce il click sul bottone per mostrare autori aggiuntivi
+  // Apre i dettagli del libro se il bottone è presente
   handleShowMoreAuthors(event, button) {
     const bookDiv = button.closest(".book-result");
     const detailsBtn = bookDiv.querySelector(".book-details");
@@ -161,7 +171,10 @@ handleSocialLink(event, link) {
       detailsBtn.click();
     }
   }
-
+//------------------------------------------------ creazione modale dettagli libro --------------------------------------------------------
+  // Crea un modale per mostrare i dettagli del libro
+  // Recupera i dettagli del libro tramite API e li visualizza nel modale
+  // Gestisce anche eventuali errori nel recupero dei dettagli
   createBookModal(bookKey, coverUrl, button) {
     const resultsContainer = document.querySelector(".results-container");
     
@@ -178,13 +191,15 @@ handleSocialLink(event, link) {
 
     resultsContainer.appendChild(bookDescription);
 
-    // Aggiungi spinner di caricamento
-    bookDescription.innerHTML = `
-      <div class="loading-spinner">
-        <p>Caricamento dettagli...</p>
-      </div>
-    `;
 
+    // creo uno spinner per il caricamento dei dettagli libro per migliorare la UX
+    bookDescription.innerHTML = `
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Caricamento dettagli...</p>
+    </div>
+  `;
+// Recupera i dettagli del libro tramite API
     getBookDetails(bookKey)
       .then((details) => {
         bookDescription.innerHTML = `
@@ -215,13 +230,13 @@ handleSocialLink(event, link) {
 // Inizializza l'event delegator
 const eventDelegator = new EventDelegator();
 
-// ---------- Funzioni di utilità (mantenute per compatibilità) ----------
+// elimina i risultati precedenti dalla pagina
 export function clearResults() {
   const existingResults = document.querySelector(".results-container");
   if (existingResults) existingResults.remove();
 }
 
-// Modale errori/messaggi
+// creazione modale errori/messaggi
 let activeModal = null;
 
 export function showModal(message, isError = true) {
@@ -262,7 +277,7 @@ function closeModal() {
   }
 }
 
-// ---------- Rendering risultati (semplificato) ----------
+// ---------- Rendering risultati  ----------
 let allResults = [];
 let displayedCount = 10;
 
@@ -317,6 +332,8 @@ export function renderResults(books) {
 
     // Determina se il libro è nei preferiti
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    // se il libro non è nei preferiti aggiungilo passango la book.key 
     const isLiked = favorites.includes(book.key);
 
     bookDiv.innerHTML = `
