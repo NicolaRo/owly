@@ -1,0 +1,28 @@
+@use "sass:map";
+@use "./variables" as vars;
+
+/* ↓ max-width (down): per “fino a tablet”, “fino a phone”, ecc. */
+@mixin respond-down($device) {
+  $size: map.get(vars.$breakpoints, $device);
+
+  @if $size {
+    @media screen and (max-width: $size) {
+      @content;
+    }
+  } @else {
+    @warn "⚠️ Breakpoint `#{$device}` non trovato.";
+  }
+}
+
+/* ↑ min-width (up): per “da desktop in su”, ecc. */
+@mixin respond-up($device) {
+  $size: map.get(vars.$breakpoints, $device);
+
+  @if $size {
+    @media screen and (min-width: $size) {
+      @content;
+    }
+  } @else {
+    @warn "⚠️ Breakpoint `#{$device}` non trovato.";
+  }
+}
