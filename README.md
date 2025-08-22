@@ -2,8 +2,6 @@
 Welcome to OWLY - Mastro libraio, your sleek companion for discovering books with just a few API calls.
 Whether you’re hunting for your next read or exploring hidden literary gems, OWLY brings the library to your fingertips. 🍏
 
-Try it live: https://owly-mastro-libraio.netlify.app/
-
 # Features 🌟 
 Seamlessly fetch book information via API
 Clean, intuitive interface designed for book lovers
