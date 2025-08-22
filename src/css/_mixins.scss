@@ -1,7 +1,7 @@
 @use "sass:map";
 @use "./variables" as vars;
 
-/* ↓ max-width (down): per “fino a tablet”, “fino a phone”, ecc. */
+/* max-width (down): definire i breakpoints di attivazione secondo dimensioni display  */
 @mixin respond-down($device) {
   $size: map.get(vars.$breakpoints, $device);
 
@@ -14,7 +14,7 @@
   }
 }
 
-/* ↑ min-width (up): per “da desktop in su”, ecc. */
+/* min-width (up): per display oltre i 1200px */
 @mixin respond-up($device) {
   $size: map.get(vars.$breakpoints, $device);
 
