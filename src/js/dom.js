@@ -30,7 +30,7 @@ class EventDelegator {
       return;
     }
 
-    // Gestione dettagli libro utilizzo closes per trovare il bottone più vicino
+    // Gestione dettagli libro utilizzo closest per trovare il bottone più vicino
     // Evito così di specificare il target ogni volta
     const bookDetailsBtn = event.target.closest(".book-details");
     if (bookDetailsBtn) {

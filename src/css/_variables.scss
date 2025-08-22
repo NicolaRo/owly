@@ -2,40 +2,46 @@ $section-background: #0a0f3e5f;
 $button-color: #0a0f3ed8;
 $border-radius: 5px;
 $box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
-$box-negative-shadow: 3px 3px 5pxrgba(250, 247, 247, 0.4);
+$box-negative-shadow: 3px 3px 5px rgba(250, 247, 247, 0.4);
 $section-border-radius: 10px;
-$book-result-background: #1b289c5c;
+$book-result-background: #0a1047b9;
 $primary: #4a90e2;
 $secondary: #e75333;
 $success: #388e3c;
 $dark: #222;
 $light: #f9f9f9;
 
-@mixin button-base {
-    padding: 1rem;
-    border: 1px solid #0a66e7;
-    border-radius: $border-radius;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: $box-shadow;
-    transition: background-color 0.3s ease;
-    height: fit-content;
-    color:#ffff;
-    font-size: 1rem;
-  }
+$breakpoints: (
+  "phone": 480px,
+  "tablet": 768px,
+  "desktop": 1200px
+);
 
-  @mixin section-base {
-    background-color: $section-background;
-    border-radius: $section-border-radius;
-    width: 100vw;
-  }
+/* Mixin di base */
+@mixin button-base {
+  padding: 1rem;
+  border: 1px solid #0a66e7;
+  border-radius: $border-radius;
+  cursor: pointer;
+  box-shadow: $box-shadow;
+  transition: background-color 0.3s ease;
+  height: fit-content;
+  color: #fff;
+  font-size: 1rem;
+}
+
+@mixin section-base {
+  background-color: $section-background;
+  border-radius: $section-border-radius;
+  width: 100vw;
+}
 
 @mixin book-preview-details {
   background-color: #333;
   color: #fff;
   padding: 5px;
   border-radius: $border-radius;
-  width:fit-content;
+  width: fit-content;
   height: fit-content;
   margin: 1rem;
 }
