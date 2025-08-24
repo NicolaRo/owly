@@ -1,16 +1,531 @@
+@use "./variables" as *;
+@use "sass:color";
+@use "./mixins";
 
+/* ========================== GLOBALE ========================== */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #06ad36;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background: $light;
+  color: $dark;
+  line-height: 1.5;
+
+  /* Phone: fino a 480px */
+  @include mixins.respond-down("phone") {
+    font-size: 0.85rem;
+  }
+
+  /* Desktop large: da 1200px in su */
+  @include mixins.respond-up("desktop") {
+    font-size: 1rem;
+  }
+}
+
+/* ========================== HEADER ========================== */
+.logo-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(10, 15, 62, 0.768), rgba(10, 15, 62, 0.009));
+  box-shadow: $box-shadow;
+
+  @include mixins.respond-down("tablet") {
+    padding: 0.2rem;
+  }
+}
+
+.owly-Logo {
+  width: 150px;
+  height: auto;
+  margin: 1rem;
+  border-radius: $border-radius;
+
+  @include mixins.respond-down("tablet") {
+    width: 80px;
+  }
+}
+
+/* ========================== HERO SECTION ========================== */
+.hero-section {
+  background:
+    linear-gradient(to bottom, rgba(10, 15, 62, 0.324), rgba(10, 15, 62, 0.806)),
+    url("../img/hero-cover1.jpg") no-repeat center/cover;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: height 0.4s ease;
+  border-radius: 0 0 5px 5px;
+
+  &.shrink { height: 20vh; }
+
+  h1 {
+    color: white;
+    font-size: 2.5rem;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    font-family: 'Courier New', Courier, monospace;
+    padding: 0.5rem;
+
+    @include mixins.respond-down("tablet") {
+      font-size: 1.5rem;
+    }
+  }
+
+  #select-input {
+    @include button-base;
+    background: $primary;
+    color: white;
+    border-radius: $border-radius;
+    padding: 1rem;
+    font-size: 1rem;
+
+    @include mixins.respond-down("tablet") {
+      width: fit-content;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  #search-input {
+    border-radius: $border-radius;
+    width: 60%;
+    max-width: 500px;
+    height: 3rem;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid $primary;
+
+    input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 50px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+
+      &:focus {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      }
+
+      @include mixins.respond-down("tablet") {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    @include mixins.respond-down("tablet") {
+      width: 80%;
+      font-size: 0.7rem;
+      height: auto;
+    }
+  }
+
+  #search-button {
+    @include button-base;
+    background: $primary;
+
+    @include mixins.respond-down("tablet") {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0.5rem;
+}
+
+/* ========================== RISULTATI ========================== */
+.results-container {
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 1100px;
+
+  /* LIST VIEW - Vista a elenco */
+  &.list-view .book-result {
+    display: flex;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, $primary, $secondary);
+    color: white;
+    
+    /* Mobile: mantieni layout orizzontale ma adatta le proporzioni */
+    @include mixins.respond-down("tablet") {
+      flex-direction: row; /* Cambiato da column a row */
+      align-items: flex-start; /* Cambiato da center */
+      width: 100%;
+      padding: 0.5rem;
+      
+      .book-cover-container {
+        flex-shrink: 0; /* Impedisce alla cover di rimpicciolirsi troppo */
+        width: 80px; /* Larghezza fissa per la cover */
+        margin-right: 1rem;
+        
+        .book-cover {
+          width: 100%;
+          height: 120px; /* Altezza fissa per mobile list */
+          object-fit: cover;
+        }
+      }
+      
+      .book-meta {
+        flex: 1; /* Prende tutto lo spazio rimanente */
+        padding: 0.5rem;
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  /* GRID VIEW - Vista a griglia */
+  &.grid-view .books-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    
+    /* Tablet: 2 colonne */
+    @include mixins.respond-down("tablet") {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+    }
+    
+    /* Phone: 3 colonne fisse invece di 1 */
+    @include mixins.respond-down("phone") {
+      grid-template-columns: repeat(3, 1fr); // ← 3 colonne!
+      gap: 0.5rem; // Gap più piccolo per far stare tutto
+    }
+      
+      .book-result {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        
+        .book-cover-container {
+          width: 100%;
+          
+          .book-cover {
+            width: 100%;
+            height: 160px; /* Altezza fissa per mobile grid */
+            object-fit: cover;
+          }
+        }
+        
+        .book-meta {
+          padding: 0.5rem;
+          font-size: 0.8rem;
+        }
+      }
+    }
+    
+    /* Phone: singola colonna per schermi molto piccoli */
+    @include mixins.respond-down("phone") {
+      grid-template-columns: 1fr; /* Una sola colonna */
+    }
+  }
+
+
+  .toggle-placeholder {
+    text-align: right;
+    margin-bottom: 1rem;
+  }
+
+  .toggle-button {
+    @include button-base;
+    background: $primary;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+
+    &:hover {
+      background: color.scale($primary, $lightness: -10%);
+    }
+    
+    /* Mobile: centra il bottone toggle */
+    @include mixins.respond-down("tablet") {
+      display: block;
+      margin: 0 auto 1rem auto;
+      padding: 0.6rem 1.2rem;
+    }
+  }
+
+
+
+/* ========================== LIBRO ========================== */
+.book-result {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+
+  &:hover { 
+    transform: translateY(-5px); 
+  }
+
+  .book-cover-container {
+    position: relative;
+
+    .book-cover {
+      border-radius: 12px;
+      border: solid 2px $secondary;
+    }
+
+    .book-overlay {
+      position: absolute;
+      width: 100%;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1));
+      color: white;
+      padding: 1rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border: solid 1px #e9e6e657;
+
+      h3 { 
+        font-size: 1rem; 
+        margin-bottom: 0.5rem; 
+
+        @include mixins.respond-down("tablet") {
+          position: absolute;
+          width: calc(100% + 2rem);
+          left: -1rem;
+          top: -2.5rem; // Sopra l'overlay
+          background: $primary;
+          color: white;
+          padding: 0.5rem;
+          border-radius: $border-radius;
+          text-align: center;
+          font-size: 0.9rem;
+          margin: 0;
+        }
+      }
+
+      .book-buttons {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+
+        button {
+          padding: 0.4rem 0.7rem;
+          border-radius: 8px;
+          border: none;
+          cursor: pointer;
+          font-size: 0.85rem;
+
+          &:hover { transform: scale(1.05); }
+        }
+
+        .book-details {
+          background: $primary;
+          color: white;
+
+          &:hover {
+            background: color.adjust($primary, $lightness: -10%);
+          }
+        }
+
+        .like-button {
+          background: white;
+          color: $primary;
+
+          &.liked {
+            background: $secondary;
+            color: white;
+          }
+        }
+      }
+      
+      /* Mobile: rendi overlay sempre visibile e ridimensiona */
+      @include mixins.respond-down("tablet") {
+        opacity: 1; /* SEMPRE VISIBILE SU MOBILE */
+        padding: 0.5rem;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.3)); /* Più opaco */
+        
+        h3 { 
+          font-size: 0.9rem; 
+        }
+        
+        .book-buttons {
+          justify-content: center; /* Centra i bottoni su mobile */
+          
+          button {
+            padding: 0.3rem 0.5rem;
+            font-size: 0.75rem;
+          }
+        }
+      }
+    }
+
+    &:hover .book-overlay { 
+      opacity: 1; 
+    }
+    
+    /* Mobile: overlay sempre visibile, hover disabilitato */
+    @include mixins.respond-down("tablet") {
+      .book-overlay {
+        opacity: 1 !important; /* Forza visibilità sempre */
+      }
+      
+      /* Disabilita effetto hover su mobile per evitare conflitti */
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+
+  .book-meta {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+
+    strong { color: $dark; }
+
+    .show-more-authors {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 0 0.3rem;
+    }
+  }
+}
+
+.book-description {
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: 80%;
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  backdrop-filter: blur(6px);
+  background: $book-result-background;
+  color: white;
+  padding: 1rem;
+  border-radius: $border-radius;
+  margin-right: 1rem;
+  max-width: 800px;
+  box-shadow: $box-shadow;
+  border: solid 2px $secondary;
+
+  .close-button {
+    @include button-base;
+    background: $secondary;
+  }
+}
+
+/* ========================== MODALE ========================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  z-index: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+
+  h2 {
+    position: relative;
+    text-align: center;
+    font-size: 5rem;
+    color: white;
+  }
+
+  #dialog_desc {
+    position: relative;
+    background-color: rgb(179, 179, 179);
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-radius: $border-radius;
+  }
+
+  #modal-close {
+    @include button-base;
+    background-color: $primary;
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @include mixins.respond-down("tablet") {
+    h2 { 
+      font-size: 2rem;
+      position: relative;
+      text-align: center;
+    }
+
+    #dialog_desc {
+      font-size: 1rem;
+      padding: 0.5rem;
+      margin-bottom: 10px;
+      width: fit-content;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #modal-close {
+    @include button-base;
+    background-color: $primary;
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+  }
+}
+
+/* ========================== FOOTER ========================== */
+footer {
+  position: relative;
+  margin-top: 65%;
+  z-index: 100;
+}
+
+.contatti-footer-container {
+  width: 100vw;
+  font-size: 0.8rem;
+  background: $section-background;
+  padding: 1rem;
+  border-radius: $section-border-radius;
+  color: $secondary;
+  position: sticky;
+  top: 0;
+  margin-top: 31vw;
+
+  @include mixins.respond-down("tablet") {
+    font-size: 0.7rem;
+    padding: 0.5rem;
+    position: static;
+  }
+}
+.social-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+  transition: transform 0.3s ease;
+  position: relative;
+  left: 50%;
+
+  &:hover { transform: scale(1.2); }
+}

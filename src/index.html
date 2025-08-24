@@ -1,57 +1,65 @@
 <!DOCTYPE html>
-<html lang="italian">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Owly "Mastro libraio"</title>
-        <meta description="Owly, webapp gratuita per studenti con funzionalità di ricerca testi e libri">
-        <meta name="keywords" content="Owly, compagno di studio, ricerca testi, libri, studenti, gratuita, appplicazione">
-        <meta name="author" content="Owly Società per l'Educazione e la formazione">
-        <link rel="icon" href="./img/favicon/favicon.ico">
-        <!-- <link rel="stylesheet" href="/dist/style.css"> -->
-    </head>
+<html lang="it" aria-live="polite">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Owly "Mastro libraio"</title>
+    <meta name="description" content="Owly, webapp gratuita per studenti con funzionalità di ricerca testi e libri" />
+    <meta name="keywords" content="Owly, compagno di studio, ricerca testi, libri, studenti, gratuita, applicazione" />
+    <meta name="author" content="Owly Società per l'Educazione e la formazione" />
+    
+    <!-- Favicon - ora servite da /favicon/ grazie a CopyPlugin -->
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png">
+</head>
+<body>
     <header>
         <nav>
-            <div class="navbar-container">
-                <div class="logo-navbar-container">
-                    <img src="img/Owly-Logo.png" alt="Logo Owly" />
-                </div>
-                <ul class="voci-navbar-container">
-                    <li class="voce-navbar">Ricerca titolo</li>
-                    <li class="voce-navbar">Cronologia ricerche</li>
-                    <li class="voce-navbar">Log in</li>
-                    <li class="voce-navbar">Contatti</li>
-                </ul>
+            <div class="logo-container">
+                <img src="src/img/Owly-Logo.png" alt="Logo Owly" class="owly-Logo" />
             </div>
         </nav>
     </header>
-    <body>
-        
-        <main>
+
+    <main>
+        <section class="hero-section">
             <h1 class="home-title">Owly "Mastro libraio"</h1>
-            <section class="hero-section">
-                <div class="hero-content">
-                    <select id="select-input">
-                        <option value="">Scegli...</option>
-                        <option value="title">Titolo</option>
-                        <option value="author">Autore</option>
-                        <option value="subject">Genere</option>
-                    </select>
-                    <input type="text" id="search-input" placeholder="Scrivi qui il titolo del libro che stai cercando...">
-                    <button id="search-button">Cerca</button>
-                </div>
-            </section>
-        </main>
-        <footer>
-            <div class="contatti-footer-container">
-                <ul>
-                    <p class="h1-contatti-footer">Contatti</p>
-                    <li class="contatti-footer">Telefono: 345 9778518</li>
-                    <li class="contatti-footer">email: n.rossi.studio@gmail.com</li>
-                </ul>
+            <div class="hero-content">
+                <select id="select-input">
+                    <option value="">Scegli...</option>
+                    <option value="title">Titolo</option>
+                    <option value="author">Autore</option>
+                    <option value="subject">Genere</option>
+                </select>
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Scrivi qui il titolo del libro che stai cercando..."
+                />
+                <button id="search-button">Cerca</button>
             </div>
-            <p class="footer-signature">Disegnato e sviluppato da RNicola™ - NicoDesign®</p>
-        </footer>
-        <script src="/src/js/index.js"></script>
-    </body>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contatti-footer-container">
+            <div class="Social-container">
+                <a href="https://nicolaro.github.io/" target="_blank" rel="noopener noreferrer">
+                    <img class="social-icon" src="/src/img/social-icon/Portfolio-Nicola-Logo.png" alt="Nicola Rossi DevPortfolio" />
+                </a>
+                <a href="https://github.com/NicolaRo" target="_blank" rel="noopener noreferrer">
+                    <img class="social-icon" src="/src/img/social-icon/Github-Logo-Black.png" alt="Nicola Rossi GitHub profile" />
+                </a>
+            </div>
+            <p class="footer-signature">
+                Disegnato e sviluppato da RNicola™ - NicoDesign®
+            </p>
+        </div>
+    </footer>
+</body>
 </html>
