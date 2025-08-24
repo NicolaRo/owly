@@ -34,4 +34,4 @@ out/
 *.tmp
 *.swp
 *.bak
-*.tgz
+*.tgz.DS_Store
