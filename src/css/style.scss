@@ -301,16 +301,18 @@ body {
 
         @include mixins.respond-down("tablet") {
           position: absolute;
-          width: calc(100% + 2rem);
-          left: -1rem;
-          top: -2.5rem; // Sopra l'overlay
-          background: $primary;
+          width: 267%;
+          left: 100px;
+          top: -2.5rem;
+          background: #4a90e2;
           color: white;
-          padding: 0.5rem;
-          border-radius: $border-radius;
-          text-align: center;
           font-size: 0.9rem;
-          margin: 0;
+          max-height: 21.8rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: large;
+          font-weight: bolder;
+          top: 77px;
         }
       }
 
