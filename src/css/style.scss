@@ -356,7 +356,20 @@ body {
         background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.3)); /* Più opaco */
         
         h3 { 
-          font-size: 0.9rem; 
+          font-size: 0.9rem;
+          position: relative;
+          width: 100%;
+          left: 1px;
+          top: -2.5rem;
+          background: #4a90e2;
+          color: white;
+          font-size: 0.9rem;
+          max-height: 2.8rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: -webkit-line-clamp;
+          font-size: smaller;
+          font-weight: lighter; 
         }
         
         .book-buttons {
