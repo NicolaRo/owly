@@ -30,7 +30,7 @@ module.exports = {
       patterns: [
         {
           from: "src/img/favicon",
-          to: "favicon", // Le favicon saranno servite da /favicon/
+          to: "favicon",
         },
       ],
     }),
