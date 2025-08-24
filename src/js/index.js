@@ -8,18 +8,19 @@ import { debounce } from "./utils.js";
 // Importo la funzione debugLog per mostrare a console i messaggi di debug
 import { debugLog } from "./utils.js";
 
-// Importa le immagini necessarie
+// Importa SOLO le immagini che vengono usate dinamicamente nel contenuto della pagina
 import owlyLogo from "../img/Owly-Logo.png";
 import githubLogo from "../img/social-icon/Github-Logo-Black.png";
-import favicon32 from "../img/social-icon/favicon-32x32.png";
+import portfolioLogo from "../img/social-icon/Portfolio-Nicola-Logo.png";
 
-
+// ❌ NON importare le favicon! Sono già gestite nell'HTML
+// Le favicon sono metadata, non contenuto dinamico della pagina
 
 document.addEventListener("DOMContentLoaded", () => {
   
   //  aggiorna dinamicamente gli src per consentire a webpack il caricamento delle immagini
   document.querySelector(".owly-Logo").src = owlyLogo;
-  document.querySelector("img[alt='Nicola Rossi DevPortfolio']").src = favicon32;
+  document.querySelector("img[alt='Nicola Rossi DevPortfolio']").src = portfolioLogo; // ✅ Corretto!
   document.querySelector("img[alt='Nicola Rossi GitHub profile']").src = githubLogo;
 
   // riferimenti DOM (scoped, non globali)
