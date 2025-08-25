@@ -164,100 +164,116 @@ body {
   margin: 2rem auto;
   width: 90%;
   max-width: 1100px;
-  
-  &.list-view .book-result {
+
+  .books-wrapper {
     display: flex;
-    margin-bottom: 1.5rem;
-    background: linear-gradient(to right, $primary, $secondary);
-    color: white;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* DESKTOP --> list-view */
+.results-container.list-view .books-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.h3 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+/* DESKTOP --> grid-view */
+.results-container.grid-view .books-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  
+  /* Tablet: 2 colonne */
+  @include mixins.respond-down("tablet") {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  /* Phone: 3 colonne fisse invece di 1 */
+  @include mixins.respond-down("phone") {
+    grid-template-columns: repeat(3, 1fr); // ← 3 colonne!
+    gap: 0.5rem; // Gap più piccolo per far stare tutto
+  }
+  
+  .book-result {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     
-    @include mixins.respond-down("tablet") {
-      position: relative;
-      flex-direction: column;
-      align-items: stretch;
+    .book-cover-container {
       width: 100%;
-      padding: 2.5rem 0.5rem 0.5rem 0.5rem;
       
-      .book-cover-container {
-        flex-shrink: 2;
-        width: 80px;
-        margin-bottom: 1rem;
-        align-self: flex-start;
-        
-        h3 {
-          position: absolute;
-          top: 3px;
-          left: 0.5rem;
-          width: 80%;
-          margin: 0;
-          font-weight: bold;
-          font-size: larger;
-          z-index: 2;
-          color: white;
-        }
-        
-        .book-cover {
-          width: 100%;
-          height: 120px;
-          object-fit: cover;
-        }
+      .book-cover {
+        width: 100%;
+        height: 160px; /* Altezza fissa per mobile grid */
+        object-fit: cover;
       }
-      
-      .book-meta {
-        padding: 0;
-        font-size: 0.85rem;
-        
-        p {
-          margin: 0.25rem 0;
-        }
+    }
+    .h3 {
+      font-size: 0.9rem;
+      position: relative;
+      width: 100%;
+      left: 1px;
+      top: -0.5rem;
+      background: #e2b94a5a;
+      color: white;
+      font-size: 0.9rem;
+      max-height: 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: -webkit-line-clamp;
+      font-size: smaller;
+      font-weight: lighter;
+      padding: 2px;
+      border-radius: 3px;
       }
+
+    }
+    .book-meta {
+      padding: 0.5rem;
+      font-size: 0.8rem;
     }
   }
-}  /* GRID VIEW - Vista a griglia */
-  /* & */.grid-view .books-wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1rem;
-    
-    /* Tablet: 2 colonne */
-    @include mixins.respond-down("tablet") {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.8rem;
-    }
-    
-    /* Phone: 3 colonne fisse invece di 1 */
-    @include mixins.respond-down("phone") {
-      grid-template-columns: repeat(3, 1fr); // ← 3 colonne!
-      gap: 0.5rem; // Gap più piccolo per far stare tutto
-    }
-      
-      .book-result {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        
-        .book-cover-container {
-          width: 100%;
-          
-          .book-cover {
-            width: 100%;
-            height: 160px; /* Altezza fissa per mobile grid */
-            object-fit: cover;
-          }
-        }
-        
-        .book-meta {
-          padding: 0.5rem;
-          font-size: 0.8rem;
-        }
-      }
-    }
-    
-    /* Phone: singola colonna per schermi molto piccoli */
-    /* @include mixins.respond-down("phone") {
-      grid-template-columns: 1fr; */ /* Una sola colonna */
-    
 
+
+/* Mobile --> list-view */
+@media (max-width: 768px) {
+  .results-container.list-view .book-result {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    background-color: linear-gradient(to right, rgba(10, 15, 62, 0.324), rgba(10, 15, 62, 0.806));
+    padding: 1rem;
+  }
+
+  .results-container.list-view .book-cover-container {
+    flex-shrink: 0;
+    width: 80px;
+  }
+  
+  .results-container.list-view .book-meta {
+    flex: 1;
+  }
+  
+  .results-container.list-view .book-meta h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile --> grid-view */
+// (La grid-view per mobile è già inclusa nella sezione DESKTOP --> grid-view
+// grazie alle media queries @include mixins.respond-down)
+    
 
   .toggle-placeholder {
     text-align: right;
@@ -292,6 +308,9 @@ body {
   background: white;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1 rem;
 
   &:hover { 
     transform: translateY(-5px); 
@@ -319,7 +338,7 @@ body {
       transition: opacity 0.3s ease;
       border: solid 1px #e9e6e657;
 
-      h3 { 
+       h3 { 
         font-size: 1rem; 
         margin-bottom: 0.5rem; 
 
@@ -381,21 +400,19 @@ body {
         padding: 0.5rem;
         background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.3)); /* Più opaco */
         
-        h3 { 
-          font-size: 0.9rem;
+         h3 { 
+          font-size: 1rem;
           position: relative;
           width: 100%;
           left: 1px;
           top: -2.5rem;
-          background: #4a90e2;
+          background: #4a91e2c0;
           color: white;
-          font-size: 0.9rem;
-          max-height: 2.8rem;
-          overflow: hidden;
+          max-height: fit-content;
+          overflow: auto;
           text-overflow: ellipsis;
-          white-space: -webkit-line-clamp;
-          font-size: smaller;
-          font-weight: lighter; 
+          font-weight: bold;
+          border-radius: $border-radius;
         }
         
         .book-buttons {
@@ -433,7 +450,8 @@ body {
     strong { color: $dark; }
 
     .show-more-authors {
-      background: none;
+      background: #4a98e25a;
+      color:white;
       border: none;
       cursor: pointer;
       font-weight: bold;

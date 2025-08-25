@@ -9,6 +9,9 @@ import portfolioLogo from '../img/social-icon/Portfolio-Nicola-Logo.png';
 import owlyLogo from '../img/Owly-Logo.png';
 import githubLogo from '../img/social-icon/Github-Logo-Black.png';
 
+// ---------- Stato globale ----------
+let allResults = [];
+
 // Imposta le immagini quando il DOM è pronto
 function setImageSources() {
   const portfolioImg = document.getElementById('portfolio-logo');
@@ -170,6 +173,11 @@ handleSocialLink(event, link) {
       sessionStorage.setItem("viewMode", "list-view");
       button.setAttribute("aria-label", "Cambia a visualizzazione griglia");
     }
+
+    // Ri-renderizza i risultati per adattare la visualizzazione
+    if (allResults.length > 0) {
+      renderResults(allResults);
+    }
   }
 
   handleModalClose(event) {
@@ -296,11 +304,14 @@ function closeModal() {
 }
 
 // ---------- Rendering risultati  ----------
-let allResults = [];
 let displayedCount = 10;
 
 export function renderResults(books) {
   debugLog("Dom.js riceve questi libri:", books);
+  
+  // Salva i risultati globalmente per il ri-render
+  allResults = books;
+  
   clearResults();
 
   const resultsContainer = document.createElement("div");
@@ -350,15 +361,16 @@ export function renderResults(books) {
 
     // Determina se il libro è nei preferiti
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-
-    // se il libro non è nei preferiti aggiungilo passango la book.key 
     const isLiked = favorites.includes(book.key);
+
+    // AGGIUNGI QUESTA VARIABILE - Determina se siamo in list-view e su mobile
+    const isListViewMobile = savedView === "list-view" && window.innerWidth <= 768;
 
     bookDiv.innerHTML = `
       <div class="book-cover-container">
         <img src="${coverUrl}" alt="Copertina del libro" class="book-cover">
         <div class="book-overlay">
-          <h3>${book.title || "Titolo non disponibile"}</h3>
+          ${!isListViewMobile ? `<h3>${book.title || "Titolo non disponibile"}</h3>` : ""}
           <div class="book-buttons">
             <button class="book-details"
               value="${book.key}"
@@ -375,6 +387,7 @@ export function renderResults(books) {
         </div>
       </div>
       <p class="book-meta">
+        ${isListViewMobile ? `<h3>${book.title || "Titolo non disponibile"}</h3>` : ""}
         <strong>Autore:</strong> ${authorsPreview || "Autore non disponibile"} 
         ${hasMoreAuthors ? `<button class="show-more-authors" type="button" aria-label="Mostra tutti gli autori">...</button>` : ""}
         <br><strong>Anno:</strong> ${book.first_publish_year || "Anno non disponibile"}
@@ -384,3 +397,11 @@ export function renderResults(books) {
     booksWrapper.appendChild(bookDiv);
   });
 }
+
+// ---------- Gestione ridimensionamento finestra ----------
+window.addEventListener("resize", () => {
+  if (allResults.length > 0) {
+    // Ri-renderizza i risultati quando la finestra viene ridimensionata
+    renderResults(allResults);
+  }
+});
