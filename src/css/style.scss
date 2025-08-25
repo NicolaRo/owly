@@ -544,6 +544,12 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  @include mixins.respond-down("tablet") {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 .contatti-footer-container {
   width: 100vw;
