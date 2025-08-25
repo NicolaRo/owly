@@ -14,6 +14,14 @@ body {
   background: $light;
   color: $dark;
   line-height: 1.5;
+  .h1 {
+    font-family: 'Courier New', Courier, monospace;
+    color:white;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    padding: 0.5rem;
+    font-size: 2.5rem;
+    text-align: center;
+  }
 
   /* Phone: fino a 480px */
   @include mixins.respond-down("phone") {
@@ -52,6 +60,7 @@ body {
 }
 
 /* ========================== HERO SECTION ========================== */
+
 .hero-section {
   background:
     linear-gradient(to bottom, rgba(10, 15, 62, 0.324), rgba(10, 15, 62, 0.806)),
@@ -67,12 +76,12 @@ body {
 
   &.shrink { height: 20vh; }
 
-  h1 {
+   h1 {
     color: white;
     font-size: 2.5rem;
     text-shadow: 0 2px 6px rgba(0,0,0,0.5);
     font-family: 'Courier New', Courier, monospace;
-    padding: 0.5rem;
+    padding: 0.5rem; 
 
     @include mixins.respond-down("tablet") {
       font-size: 1.5rem;
@@ -137,7 +146,7 @@ body {
       font-size: 0.8rem;
     }
   }
-}
+
 
 .hero-content {
   display: flex;
@@ -147,6 +156,8 @@ body {
   gap: 1rem;
   margin: 0.5rem;
 }
+}
+
 
 /* ========================== RISULTATI ========================== */
 .results-container {
@@ -529,7 +540,11 @@ footer {
   margin-top: 65%;
   z-index: 100;
 }
-
+.results-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 .contatti-footer-container {
   width: 100vw;
   font-size: 0.8rem;
