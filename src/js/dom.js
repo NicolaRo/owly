@@ -3,6 +3,23 @@
 import { debugLog } from "./utils.js";
 import { getBookDetails, bookCover } from "./api.js";
 
+// Importo le immagini  per Webpack
+
+import portfolioLogo from '../img/social-icon/Portfolio-Nicola-Logo.png';
+import owlyLogo from '../img/Owly-Logo.png';
+import githubLogo from '../img/social-icon/Github-Logo-Black.png';
+
+// Imposta le immagini quando il DOM è pronto
+function setImageSources() {
+  const portfolioImg = document.getElementById('portfolio-logo');
+  const owlyImg = document.getElementById('owly-logo');
+  const githubImg = document.getElementById('github-logo');
+  
+  if (portfolioImg) portfolioImg.src = portfolioLogo;
+  if (owlyImg) owlyImg.src = owlyLogo;
+  if (githubImg) githubImg.src = githubLogo;
+}
+
 // ---------- Event Delegation Centralizzato ----------
 class EventDelegator {
   constructor() {
@@ -75,6 +92,7 @@ class EventDelegator {
 
   handleDOMReady() {
     debugLog("DOM completamente caricato - Event Delegation attivo");
+    setImageSources(); // Imposta le immagini quando il DOM è pronto
   }
 //------------------------------------------------ gestione link social --------------------------------------------------------
 handleSocialLink(event, link) {
