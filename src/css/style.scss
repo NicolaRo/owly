@@ -235,6 +235,7 @@ body {
         -webkit-line-clamp: 2;
         line-clamp: 2;
         line-clamp: 2;
+        overflow: scroll;
       }
     }
   }
@@ -270,7 +271,7 @@ body {
   position: relative;
 
   .book-cover {
-    width: 100%;
+    width: 150px;
     height: 200px;
     object-fit: cover;
     border-radius: 12px;
@@ -329,6 +330,7 @@ body {
         height: 2.5rem; /* circa 2 righe con padding */
         line-height: 1.4;
         -webkit-line-clamp: 2; /* massimo 2 righe */
+        line-clamp: 2;
       }
     }
 
@@ -524,7 +526,7 @@ footer {
   margin-right: 0.5rem;
   transition: transform 0.3s ease;
   position: relative;
-  left: 50%;
+  left: 40%;
 
   &:hover { 
     transform: scale(1.2); 
